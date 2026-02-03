@@ -1,0 +1,31 @@
+# Environment
+.env
+
+# Dependencies
+/vendor/
+
+# Storage
+/storage/logs/*
+/storage/cache/*
+/storage/pdfs/*
+!storage/logs/.gitkeep
+!storage/cache/.gitkeep
+!storage/pdfs/.gitkeep
+
+# Uploads
+/public/uploads/*
+!public/uploads/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.phpunit.result.cache
+coverage/
