@@ -32,8 +32,9 @@ class PdfService
         $filename = "facture_{$invoice['number']}.pdf";
 
         if ($stream) {
-            $this->dompdf->stream($filename, ['Attachment' => false]);
-            return null;
+            // Attachment => true force le téléchargement au lieu de l'affichage dans le navigateur
+            $this->dompdf->stream($filename, ['Attachment' => true]);
+            exit; // Important: arrêter l'exécution après le stream
         }
 
         // Save to temp file and return path
@@ -53,8 +54,9 @@ class PdfService
         $filename = "devis_{$quote['number']}.pdf";
 
         if ($stream) {
-            $this->dompdf->stream($filename, ['Attachment' => false]);
-            return null;
+            // Attachment => true force le téléchargement au lieu de l'affichage dans le navigateur
+            $this->dompdf->stream($filename, ['Attachment' => true]);
+            exit; // Important: arrêter l'exécution après le stream
         }
 
         // Save to temp file and return path
