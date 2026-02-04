@@ -190,19 +190,31 @@ class SettingsController extends Controller
             $this->redirect('/settings');
         }
 
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         $filename = 'logo_' . $this->userId() . '_' . time() . '.' . $extension;
-        $uploadsDir = __DIR__ . '/../../public/uploads';
+
+        // Use realpath to get absolute path
+        $uploadsDir = realpath(__DIR__ . '/../../public') . '/uploads';
 
         // Create uploads directory if it doesn't exist
         if (!is_dir($uploadsDir)) {
-            mkdir($uploadsDir, 0755, true);
+            if (!@mkdir($uploadsDir, 0777, true)) {
+                $this->flash('error', 'Impossible de créer le dossier uploads.');
+                $this->redirect('/settings');
+            }
+        }
+
+        // Check if directory is writable
+        if (!is_writable($uploadsDir)) {
+            $this->flash('error', 'Dossier uploads non accessible en écriture.');
+            $this->redirect('/settings');
         }
 
         $destination = $uploadsDir . '/' . $filename;
 
         if (!move_uploaded_file($file['tmp_name'], $destination)) {
-            $this->flash('error', 'Erreur lors de l\'enregistrement du logo.');
+            $error = error_get_last();
+            $this->flash('error', 'Échec enregistrement: ' . ($error['message'] ?? 'unknown'));
             $this->redirect('/settings');
         }
 
