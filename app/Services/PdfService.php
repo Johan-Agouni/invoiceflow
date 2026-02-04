@@ -123,11 +123,14 @@ class PdfService
                     <tr>
                         <td style="width: 50%; vertical-align: top; border: none;">
                             <?php if (!empty($settings['company_logo'])):
-                                // Use absolute file path for Dompdf
-                                $logoPath = realpath(__DIR__ . '/../../public' . $settings['company_logo']);
-                                if ($logoPath && file_exists($logoPath)):
+                                // Build absolute path and embed as base64 for Dompdf
+                                $publicDir = dirname(__DIR__, 2) . '/public';
+                                $logoPath = $publicDir . $settings['company_logo'];
+                                if (file_exists($logoPath)):
+                                    $logoData = base64_encode(file_get_contents($logoPath));
+                                    $logoMime = mime_content_type($logoPath);
                             ?>
-                                <img src="<?= $logoPath ?>" class="logo" alt="Logo">
+                                <img src="data:<?= $logoMime ?>;base64,<?= $logoData ?>" class="logo" alt="Logo">
                             <?php endif; endif; ?>
                             <div class="company-name"><?= htmlspecialchars($settings['company_name'] ?: 'Votre Entreprise') ?></div>
                             <div class="company-info">
