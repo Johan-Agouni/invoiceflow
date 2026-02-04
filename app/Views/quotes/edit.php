@@ -9,7 +9,7 @@
         <h1 class="text-3xl font-bold text-gray-900">Modifier le devis <?= htmlspecialchars($quote['number']) ?></h1>
     </div>
 
-    <form action="/quotes/<?= $quote['id'] ?>" method="POST" class="space-y-6">
+    <form action="/quotes/<?= $quote['id'] ?>" method="POST" class="space-y-6" id="quoteForm">
         <input type="hidden" name="_token" value="<?= htmlspecialchars($csrf_token) ?>">
 
         <!-- Informations générales -->
@@ -203,6 +203,18 @@ function calculateTotals() {
 }
 
 document.querySelectorAll('[name="item_quantity[]"], [name="item_price[]"], [name="item_vat[]"]').forEach(i => i.addEventListener('input', calculateTotals));
+
+// Empêcher la soumission du formulaire quand on appuie sur Entrée dans les champs de saisie
+document.getElementById('quoteForm').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.type !== 'submit') {
+        e.preventDefault();
+        const inputs = Array.from(this.querySelectorAll('input:not([type="hidden"]), select, textarea'));
+        const currentIndex = inputs.indexOf(e.target);
+        if (currentIndex < inputs.length - 1) {
+            inputs[currentIndex + 1].focus();
+        }
+    }
+});
 </script>
 
 <?php $content = ob_get_clean(); ?>
