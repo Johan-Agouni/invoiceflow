@@ -220,6 +220,18 @@ function formatCurrency(value) {
 document.querySelectorAll('[name="item_quantity[]"], [name="item_price[]"], [name="item_vat[]"]').forEach(input => {
     input.addEventListener('input', calculateTotals);
 });
+
+// Empêcher la soumission du formulaire quand on appuie sur Entrée dans les champs de saisie
+document.getElementById('invoiceForm').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.type !== 'submit') {
+        e.preventDefault();
+        const inputs = Array.from(this.querySelectorAll('input:not([type="hidden"]), select, textarea'));
+        const currentIndex = inputs.indexOf(e.target);
+        if (currentIndex < inputs.length - 1) {
+            inputs[currentIndex + 1].focus();
+        }
+    }
+});
 </script>
 
 <?php $content = ob_get_clean(); ?>
