@@ -181,7 +181,14 @@ class SettingsController extends Controller
 
         $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
         $filename = 'logo_' . $this->userId() . '_' . time() . '.' . $extension;
-        $destination = __DIR__ . '/../../public/uploads/' . $filename;
+        $uploadsDir = __DIR__ . '/../../public/uploads';
+
+        // Create uploads directory if it doesn't exist
+        if (!is_dir($uploadsDir)) {
+            mkdir($uploadsDir, 0755, true);
+        }
+
+        $destination = $uploadsDir . '/' . $filename;
 
         if (!move_uploaded_file($file['tmp_name'], $destination)) {
             $this->flash('error', 'Erreur lors de l\'enregistrement du logo.');
