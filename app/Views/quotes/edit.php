@@ -192,14 +192,17 @@ function calculateTotals() {
         const qty = parseFloat(row.querySelector('[name="item_quantity[]"]').value) || 0;
         const price = parseFloat(row.querySelector('[name="item_price[]"]').value) || 0;
         const vat = parseFloat(row.querySelector('[name="item_vat[]"]').value) || 0;
-        const lineTotal = qty * price;
+        const lineTotal = Math.round(qty * price * 100) / 100;
         subtotal += lineTotal;
-        vatAmount += lineTotal * (vat / 100);
+        vatAmount += Math.round(lineTotal * (vat / 100) * 100) / 100;
         row.querySelector('.line-total').textContent = lineTotal.toLocaleString('fr-FR', {minimumFractionDigits: 2}) + ' €';
     });
+    subtotal = Math.round(subtotal * 100) / 100;
+    vatAmount = Math.round(vatAmount * 100) / 100;
+    const total = Math.round((subtotal + vatAmount) * 100) / 100;
     document.getElementById('subtotal').textContent = subtotal.toLocaleString('fr-FR', {minimumFractionDigits: 2}) + ' €';
     document.getElementById('vatAmount').textContent = vatAmount.toLocaleString('fr-FR', {minimumFractionDigits: 2}) + ' €';
-    document.getElementById('total').textContent = (subtotal + vatAmount).toLocaleString('fr-FR', {minimumFractionDigits: 2}) + ' €';
+    document.getElementById('total').textContent = total.toLocaleString('fr-FR', {minimumFractionDigits: 2}) + ' €';
 }
 
 document.querySelectorAll('[name="item_quantity[]"], [name="item_price[]"], [name="item_vat[]"]').forEach(i => i.addEventListener('input', calculateTotals));

@@ -201,16 +201,20 @@ function calculateTotals() {
         const price = parseFloat(row.querySelector('[name="item_price[]"]').value) || 0;
         const vat = parseFloat(row.querySelector('[name="item_vat[]"]').value) || 0;
 
-        const lineTotal = qty * price;
+        const lineTotal = Math.round(qty * price * 100) / 100;
         subtotal += lineTotal;
-        vatAmount += lineTotal * (vat / 100);
+        vatAmount += Math.round(lineTotal * (vat / 100) * 100) / 100;
 
         row.querySelector('.line-total').textContent = formatCurrency(lineTotal);
     });
 
+    subtotal = Math.round(subtotal * 100) / 100;
+    vatAmount = Math.round(vatAmount * 100) / 100;
+    const total = Math.round((subtotal + vatAmount) * 100) / 100;
+
     document.getElementById('subtotal').textContent = formatCurrency(subtotal);
     document.getElementById('vatAmount').textContent = formatCurrency(vatAmount);
-    document.getElementById('total').textContent = formatCurrency(subtotal + vatAmount);
+    document.getElementById('total').textContent = formatCurrency(total);
 }
 
 function formatCurrency(value) {
