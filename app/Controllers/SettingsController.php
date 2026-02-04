@@ -161,7 +161,18 @@ class SettingsController extends Controller
         }
 
         if (!isset($_FILES['logo']) || $_FILES['logo']['error'] !== UPLOAD_ERR_OK) {
-            $this->flash('error', 'Erreur lors de l\'upload du logo.');
+            $errorCode = $_FILES['logo']['error'] ?? 'no file';
+            $errorMessages = [
+                UPLOAD_ERR_INI_SIZE => 'Fichier trop volumineux (limite PHP)',
+                UPLOAD_ERR_FORM_SIZE => 'Fichier trop volumineux (limite formulaire)',
+                UPLOAD_ERR_PARTIAL => 'Upload partiel',
+                UPLOAD_ERR_NO_FILE => 'Aucun fichier sélectionné',
+                UPLOAD_ERR_NO_TMP_DIR => 'Dossier temporaire manquant',
+                UPLOAD_ERR_CANT_WRITE => 'Échec écriture disque',
+                UPLOAD_ERR_EXTENSION => 'Extension PHP a bloqué l\'upload',
+            ];
+            $message = $errorMessages[$errorCode] ?? "Erreur upload (code: {$errorCode})";
+            $this->flash('error', $message);
             $this->redirect('/settings');
         }
 
