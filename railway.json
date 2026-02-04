@@ -4,7 +4,7 @@
         "builder": "NIXPACKS"
     },
     "deploy": {
-        "startCommand": "php -S 0.0.0.0:$PORT -t public",
+        "startCommand": "php -d upload_max_filesize=64M -d post_max_size=64M -d memory_limit=256M -S 0.0.0.0:$PORT -t public",
         "healthcheckPath": "/",
         "healthcheckTimeout": 30,
         "restartPolicyType": "ON_FAILURE",
