@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Controller;
 use App\Models\User;
 use App\Models\Settings;
+use App\Services\MailService;
 
 class AuthController extends Controller
 {
@@ -165,9 +166,14 @@ class AuthController extends Controller
 
         if ($user) {
             $token = User::createPasswordResetToken($user['id']);
-            // TODO: Send email with reset link
-            // For now, just log it
-            error_log("Password reset token for {$email}: {$token}");
+
+            // Send password reset email
+            $mailService = new MailService();
+            $sent = $mailService->sendPasswordReset($email, $user['name'], $token);
+
+            if (!$sent) {
+                error_log("Failed to send password reset email to {$email}");
+            }
         }
 
         $this->redirect('/forgot-password');

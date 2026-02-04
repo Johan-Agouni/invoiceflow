@@ -21,14 +21,25 @@ ini_set('session.use_strict_mode', '1');
 
 session_start();
 
-// Security headers
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: DENY');
-header('X-XSS-Protection: 1; mode=block');
-header('Referrer-Policy: strict-origin-when-cross-origin');
+// Security headers (OWASP compliant)
+$securityHeaders = new \App\Middleware\SecurityHeadersMiddleware();
+$securityHeaders->handle();
+
+// Rate limiting for API routes
+$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+if (str_starts_with($requestUri, '/api/')) {
+    $rateLimiter = new \App\Middleware\RateLimitMiddleware(
+        maxRequests: (int) ($_ENV['API_RATE_LIMIT'] ?? 100),
+        windowSeconds: (int) ($_ENV['API_RATE_WINDOW'] ?? 60)
+    );
+    $rateLimiter->handle();
+}
 
 // Load routes
 $router = require __DIR__ . '/../routes/web.php';
+
+// Load API routes
+require __DIR__ . '/../routes/api.php';
 
 // Dispatch request
 $router->dispatch();

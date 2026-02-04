@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "Bash(npx create-next-app:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(powershell.exe -Command \"cd ''C:\\\\Users\\\\koraline\\\\Desktop\\\\portfolio''; npm run build\")",
+      "Bash(copy:*)",
+      "Bash(wc -l:*)",
+      "Bash(xargs:*)",
+      "Bash(where:*)",
+      "Bash(php -v:*)",
+      "Bash(cmd /c \"php -v\")",
+      "Bash(cmd /c \"where php\")",
+      "Bash(cmd /c \"if exist C:\\\\php\\\\php.exe echo Found C:\\\\php\\\\php.exe && if exist C:\\\\xampp\\\\php\\\\php.exe echo Found C:\\\\xampp\\\\php\\\\php.exe && if exist C:\\\\wamp64\\\\bin\\\\php\\\\php8.2.0\\\\php.exe echo Found WAMP && if exist \"\"C:\\\\Program Files\\\\php\\\\php.exe\"\" echo Found Program Files\")",
+      "Bash(cmd /c \"dir /s /b C:\\\\php*.exe 2>nul | findstr php.exe\")",
+      "Bash(cmd /c \"C:\\\\xampp\\\\php\\\\php.exe -v\")",
+      "Bash(cmd /c \"if exist C:\\\\xampp\\\\php\\\\php.exe \\(echo PHP FOUND\\) else \\(echo NOT FOUND\\)\")",
+      "Bash(C:xamppphpphp.exe vendor/bin/phpunit:*)",
+      "Bash(find:*)",
+      "Bash(composer test:*)",
+      "Bash(php vendor/bin/phpunit:*)",
+      "Bash(cmd /c \"php vendor/bin/phpunit\")",
+      "Bash(cmd /c \"php vendor/bin/phpunit 2>&1\")",
+      "Bash(docker-compose run:*)",
+      "Bash(gh auth status:*)",
+      "Bash(gh auth login:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git remote add:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

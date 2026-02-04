@@ -9,6 +9,8 @@ use App\Controllers\ClientController;
 use App\Controllers\InvoiceController;
 use App\Controllers\QuoteController;
 use App\Controllers\SettingsController;
+use App\Controllers\PaymentController;
+use App\Controllers\TwoFactorController;
 use App\Middleware\AuthMiddleware;
 use App\Middleware\GuestMiddleware;
 
@@ -74,5 +76,28 @@ $router->post('/settings/bank', [SettingsController::class, 'updateBank'], [Auth
 $router->post('/settings/profile', [SettingsController::class, 'updateProfile'], [AuthMiddleware::class]);
 $router->post('/settings/password', [SettingsController::class, 'updatePassword'], [AuthMiddleware::class]);
 $router->post('/settings/logo', [SettingsController::class, 'uploadLogo'], [AuthMiddleware::class]);
+
+// Two-Factor Authentication
+$router->get('/settings/two-factor', [TwoFactorController::class, 'index'], [AuthMiddleware::class]);
+$router->get('/settings/two-factor/setup', [TwoFactorController::class, 'setup'], [AuthMiddleware::class]);
+$router->post('/settings/two-factor/enable', [TwoFactorController::class, 'enable'], [AuthMiddleware::class]);
+$router->post('/settings/two-factor/disable', [TwoFactorController::class, 'disable'], [AuthMiddleware::class]);
+$router->get('/settings/two-factor/recovery-codes', [TwoFactorController::class, 'recoveryCodes'], [AuthMiddleware::class]);
+$router->post('/settings/two-factor/regenerate-codes', [TwoFactorController::class, 'regenerateCodes'], [AuthMiddleware::class]);
+$router->post('/settings/two-factor/revoke-device', [TwoFactorController::class, 'revokeDevice'], [AuthMiddleware::class]);
+$router->post('/settings/two-factor/revoke-all-devices', [TwoFactorController::class, 'revokeAllDevices'], [AuthMiddleware::class]);
+
+// 2FA Challenge (during login)
+$router->get('/two-factor/challenge', [TwoFactorController::class, 'challenge']);
+$router->post('/two-factor/verify', [TwoFactorController::class, 'verify']);
+
+// Payments (Stripe)
+$router->get('/invoices/{id}/pay', [PaymentController::class, 'checkout'], [AuthMiddleware::class]);
+$router->post('/invoices/{id}/payment-intent', [PaymentController::class, 'createIntent'], [AuthMiddleware::class]);
+$router->get('/invoices/{id}/payment-status', [PaymentController::class, 'status'], [AuthMiddleware::class]);
+$router->post('/invoices/{id}/refund', [PaymentController::class, 'refund'], [AuthMiddleware::class]);
+
+// Stripe Webhook (no auth required)
+$router->post('/webhook/stripe', [PaymentController::class, 'webhook']);
 
 return $router;

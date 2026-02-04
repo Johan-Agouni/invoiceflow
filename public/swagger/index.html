@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvoiceFlow API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css">
+    <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@5/favicon-32x32.png" sizes="32x32">
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow-y: scroll;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
+
+        /* Custom header */
+        .topbar-wrapper {
+            content: none;
+        }
+
+        .swagger-ui .topbar {
+            background-color: #1e293b;
+            padding: 10px 0;
+        }
+
+        .swagger-ui .topbar .download-url-wrapper .select-label {
+            color: #fff;
+        }
+
+        .swagger-ui .topbar-wrapper img {
+            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3Cline x1='16' y1='13' x2='8' y2='13'%3E%3C/line%3E%3Cline x1='16' y1='17' x2='8' y2='17'%3E%3C/line%3E%3Cpolyline points='10 9 9 9 8 9'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+
+        .swagger-ui .topbar-wrapper::after {
+            content: "InvoiceFlow API";
+            color: white;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        /* Custom info section */
+        .swagger-ui .info .title {
+            color: #1e293b;
+        }
+
+        .swagger-ui .info .description p {
+            color: #475569;
+        }
+
+        /* Operation colors */
+        .swagger-ui .opblock.opblock-post {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .swagger-ui .opblock.opblock-post .opblock-summary-method {
+            background: #10b981;
+        }
+
+        .swagger-ui .opblock.opblock-get {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .swagger-ui .opblock.opblock-get .opblock-summary-method {
+            background: #3b82f6;
+        }
+
+        .swagger-ui .opblock.opblock-put {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .swagger-ui .opblock.opblock-put .opblock-summary-method {
+            background: #f59e0b;
+        }
+
+        .swagger-ui .opblock.opblock-delete {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .swagger-ui .opblock.opblock-delete .opblock-summary-method {
+            background: #ef4444;
+        }
+
+        /* Authorize button */
+        .swagger-ui .btn.authorize {
+            background-color: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        .swagger-ui .btn.authorize svg {
+            fill: white;
+        }
+
+        /* Try it out button */
+        .swagger-ui .try-out__btn {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        /* Execute button */
+        .swagger-ui .btn.execute {
+            background-color: #1e293b;
+            border-color: #1e293b;
+        }
+
+        /* Footer */
+        .custom-footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .custom-footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .custom-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div id="swagger-ui"></div>
+    <div class="custom-footer">
+        <p>
+            InvoiceFlow API v1.0.0 |
+            <a href="https://github.com/Johan-Agouni/invoiceflow" target="_blank">GitHub</a> |
+            Built by <a href="mailto:agouni.johan@proton.me">Johan Agouni</a>
+        </p>
+    </div>
+
+    <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js" charset="UTF-8"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js" charset="UTF-8"></script>
+    <script>
+        window.onload = function() {
+            const ui = SwaggerUIBundle({
+                url: "/api-docs.json",
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "StandaloneLayout",
+                persistAuthorization: true,
+                displayRequestDuration: true,
+                filter: true,
+                showExtensions: true,
+                showCommonExtensions: true,
+                tryItOutEnabled: true,
+                defaultModelsExpandDepth: 1,
+                defaultModelExpandDepth: 1,
+                docExpansion: "list",
+                syntaxHighlight: {
+                    activate: true,
+                    theme: "monokai"
+                },
+                requestInterceptor: (request) => {
+                    // Add timestamp to prevent caching
+                    if (request.url.includes('?')) {
+                        request.url += '&_t=' + Date.now();
+                    } else {
+                        request.url += '?_t=' + Date.now();
+                    }
+                    return request;
+                }
+            });
+
+            window.ui = ui;
+        };
+    </script>
+</body>
+</html>
