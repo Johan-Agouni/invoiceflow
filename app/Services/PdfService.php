@@ -185,10 +185,10 @@ class PdfService
                         <?php foreach ($items as $item): ?>
                         <tr>
                             <td><?= htmlspecialchars($item['description']) ?></td>
-                            <td class="text-right"><?= number_format($item['quantity'], 2, ',', ' ') ?></td>
-                            <td class="text-right"><?= number_format($item['unit_price'], 2, ',', ' ') ?> €</td>
-                            <td class="text-right"><?= number_format($item['vat_rate'], 0) ?>%</td>
-                            <td class="text-right"><?= number_format($item['total'], 2, ',', ' ') ?> €</td>
+                            <td class="text-right"><?= number_format((float) $item['quantity'], 2, ',', ' ') ?></td>
+                            <td class="text-right"><?= number_format((float) $item['unit_price'], 2, ',', ' ') ?> €</td>
+                            <td class="text-right"><?= number_format((float) $item['vat_rate'], 0) ?>%</td>
+                            <td class="text-right"><?= number_format((float) $item['total'], 2, ',', ' ') ?> €</td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -197,15 +197,15 @@ class PdfService
                 <table class="totals">
                     <tr>
                         <td>Sous-total HT</td>
-                        <td class="text-right"><?= number_format($invoice['subtotal'], 2, ',', ' ') ?> €</td>
+                        <td class="text-right"><?= number_format((float) $invoice['subtotal'], 2, ',', ' ') ?> €</td>
                     </tr>
                     <tr>
                         <td>TVA</td>
-                        <td class="text-right"><?= number_format($invoice['vat_amount'], 2, ',', ' ') ?> €</td>
+                        <td class="text-right"><?= number_format((float) $invoice['vat_amount'], 2, ',', ' ') ?> €</td>
                     </tr>
                     <tr class="total-row">
                         <td>Total TTC</td>
-                        <td class="text-right"><?= number_format($invoice['total_amount'], 2, ',', ' ') ?> €</td>
+                        <td class="text-right"><?= number_format((float) $invoice['total_amount'], 2, ',', ' ') ?> €</td>
                     </tr>
                 </table>
 
