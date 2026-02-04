@@ -56,10 +56,10 @@ class SecurityHeadersMiddleware
             "default-src 'self'",
 
             // Scripts - autoriser self et les scripts inline avec nonce/hash
-            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://js.stripe.com",
+            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://js.stripe.com",
 
             // Styles - autoriser self et inline pour Tailwind
-            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com",
+            "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://fonts.googleapis.com",
 
             // Images
             "img-src 'self' data: https:",
