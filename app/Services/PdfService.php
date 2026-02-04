@@ -21,7 +21,7 @@ class PdfService
         $this->dompdf = new Dompdf($options);
     }
 
-    public function generateInvoice(array $invoice, array $items, array $settings): void
+    public function generateInvoice(array $invoice, array $items, array $settings, bool $stream = true): ?string
     {
         $html = $this->renderInvoiceHtml($invoice, $items, $settings);
 
@@ -31,10 +31,18 @@ class PdfService
 
         $filename = "facture_{$invoice['number']}.pdf";
 
-        $this->dompdf->stream($filename, ['Attachment' => false]);
+        if ($stream) {
+            $this->dompdf->stream($filename, ['Attachment' => false]);
+            return null;
+        }
+
+        // Save to temp file and return path
+        $tempPath = sys_get_temp_dir() . '/' . $filename;
+        file_put_contents($tempPath, $this->dompdf->output());
+        return $tempPath;
     }
 
-    public function generateQuote(array $quote, array $items, array $settings): void
+    public function generateQuote(array $quote, array $items, array $settings, bool $stream = true): ?string
     {
         $html = $this->renderQuoteHtml($quote, $items, $settings);
 
@@ -44,7 +52,15 @@ class PdfService
 
         $filename = "devis_{$quote['number']}.pdf";
 
-        $this->dompdf->stream($filename, ['Attachment' => false]);
+        if ($stream) {
+            $this->dompdf->stream($filename, ['Attachment' => false]);
+            return null;
+        }
+
+        // Save to temp file and return path
+        $tempPath = sys_get_temp_dir() . '/' . $filename;
+        file_put_contents($tempPath, $this->dompdf->output());
+        return $tempPath;
     }
 
     private function renderInvoiceHtml(array $invoice, array $items, array $settings): string

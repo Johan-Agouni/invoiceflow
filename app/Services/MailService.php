@@ -108,6 +108,85 @@ class MailService
         return $this->send($invoice['client_email'], $subject, $body);
     }
 
+    /**
+     * Send password reset email
+     */
+    public function sendPasswordReset(string $email, string $name, string $token): bool
+    {
+        $resetUrl = ($_ENV['APP_URL'] ?? 'http://localhost:8080') . "/reset-password/{$token}";
+
+        $subject = "Réinitialisation de votre mot de passe - InvoiceFlow";
+
+        $body = "
+            <p>Bonjour {$name},</p>
+            <p>Vous avez demandé la réinitialisation de votre mot de passe.</p>
+            <p>Cliquez sur le lien ci-dessous pour définir un nouveau mot de passe :</p>
+            <p style='margin: 20px 0;'>
+                <a href='{$resetUrl}' style='background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;'>
+                    Réinitialiser mon mot de passe
+                </a>
+            </p>
+            <p>Ou copiez ce lien dans votre navigateur :</p>
+            <p style='color: #666; word-break: break-all;'>{$resetUrl}</p>
+            <p><strong>Ce lien expire dans 1 heure.</strong></p>
+            <p>Si vous n'avez pas demandé cette réinitialisation, ignorez simplement cet email.</p>
+            <p>Cordialement,<br>L'équipe InvoiceFlow</p>
+        ";
+
+        return $this->send($email, $subject, $body);
+    }
+
+    /**
+     * Send welcome email after registration
+     */
+    public function sendWelcome(string $email, string $name): bool
+    {
+        $loginUrl = ($_ENV['APP_URL'] ?? 'http://localhost:8080') . "/login";
+
+        $subject = "Bienvenue sur InvoiceFlow !";
+
+        $body = "
+            <p>Bonjour {$name},</p>
+            <p>Bienvenue sur <strong>InvoiceFlow</strong> ! Votre compte a été créé avec succès.</p>
+            <p>Avec InvoiceFlow, vous pouvez :</p>
+            <ul>
+                <li>Créer et gérer vos factures professionnelles</li>
+                <li>Envoyer des devis à vos clients</li>
+                <li>Suivre vos paiements en temps réel</li>
+                <li>Exporter vos données comptables</li>
+            </ul>
+            <p style='margin: 20px 0;'>
+                <a href='{$loginUrl}' style='background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;'>
+                    Accéder à mon compte
+                </a>
+            </p>
+            <p>Pour commencer, nous vous recommandons de configurer vos informations d'entreprise dans les paramètres.</p>
+            <p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+            <p>Cordialement,<br>L'équipe InvoiceFlow</p>
+        ";
+
+        return $this->send($email, $subject, $body);
+    }
+
+    /**
+     * Send payment confirmation email
+     */
+    public function sendPaymentConfirmation(array $invoice, array $settings): bool
+    {
+        $subject = "Confirmation de paiement - Facture {$invoice['number']}";
+
+        $body = "
+            <p>Bonjour,</p>
+            <p>Nous avons bien reçu votre paiement pour la facture <strong>{$invoice['number']}</strong>.</p>
+            <p><strong>Montant réglé :</strong> " . number_format($invoice['total_amount'], 2, ',', ' ') . " €</p>
+            <p><strong>Date de paiement :</strong> " . date('d/m/Y à H:i') . "</p>
+            <p>Merci pour votre confiance.</p>
+            <p>Cordialement,<br>{$settings['company_name']}</p>
+        ";
+
+        return $this->send($invoice['client_email'], $subject, $body);
+    }
+
     private function wrapInTemplate(string $content): string
     {
         return "

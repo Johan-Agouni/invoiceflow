@@ -10,6 +10,7 @@ use App\Models\InvoiceItem;
 use App\Models\Client;
 use App\Models\Settings;
 use App\Services\PdfService;
+use App\Services\MailService;
 
 class InvoiceController extends Controller
 {
@@ -186,11 +187,30 @@ class InvoiceController extends Controller
             $this->redirect('/invoices');
         }
 
+        $items = InvoiceItem::getForInvoice((int) $id);
+        $settings = Settings::getForUser($this->userId());
+
+        // Generate PDF to temp file
+        $pdf = new PdfService();
+        $pdfPath = $pdf->generateInvoice($invoice, $items, $settings, false);
+
+        // Send email with PDF attachment
+        $mailService = new MailService();
+        $sent = $mailService->sendInvoice($invoice, $settings, $pdfPath);
+
+        // Clean up temp file
+        if ($pdfPath && file_exists($pdfPath)) {
+            unlink($pdfPath);
+        }
+
         Invoice::update((int) $id, ['status' => Invoice::STATUS_PENDING]);
 
-        // TODO: Send email with PDF
+        if ($sent) {
+            $this->flash('success', 'Facture envoyée par email avec succès.');
+        } else {
+            $this->flash('warning', 'Facture marquée comme envoyée, mais l\'email n\'a pas pu être envoyé.');
+        }
 
-        $this->flash('success', 'Facture marquée comme envoyée.');
         $this->redirect("/invoices/{$id}");
     }
 

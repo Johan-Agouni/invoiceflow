@@ -10,6 +10,7 @@ use App\Models\QuoteItem;
 use App\Models\Client;
 use App\Models\Settings;
 use App\Services\PdfService;
+use App\Services\MailService;
 
 class QuoteController extends Controller
 {
@@ -177,9 +178,30 @@ class QuoteController extends Controller
             $this->redirect('/quotes');
         }
 
+        $items = QuoteItem::getForQuote((int) $id);
+        $settings = Settings::getForUser($this->userId());
+
+        // Generate PDF to temp file
+        $pdf = new PdfService();
+        $pdfPath = $pdf->generateQuote($quote, $items, $settings, false);
+
+        // Send email with PDF attachment
+        $mailService = new MailService();
+        $sent = $mailService->sendQuote($quote, $settings, $pdfPath);
+
+        // Clean up temp file
+        if ($pdfPath && file_exists($pdfPath)) {
+            unlink($pdfPath);
+        }
+
         Quote::update((int) $id, ['status' => Quote::STATUS_SENT]);
 
-        $this->flash('success', 'Devis marqué comme envoyé.');
+        if ($sent) {
+            $this->flash('success', 'Devis envoyé par email avec succès.');
+        } else {
+            $this->flash('warning', 'Devis marqué comme envoyé, mais l\'email n\'a pas pu être envoyé.');
+        }
+
         $this->redirect("/quotes/{$id}");
     }
 
