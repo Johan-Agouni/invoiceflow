@@ -41,9 +41,10 @@ class SecurityHeadersMiddleware
         header('Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(self)');
 
         // Protection contre les attaques Spectre
-        header('Cross-Origin-Opener-Policy: same-origin');
-        header('Cross-Origin-Embedder-Policy: require-corp');
-        header('Cross-Origin-Resource-Policy: same-origin');
+        // Note: COEP désactivé pour permettre le chargement des CDN (Tailwind, Chart.js, Stripe)
+        header('Cross-Origin-Opener-Policy: same-origin-allow-popups');
+        // header('Cross-Origin-Embedder-Policy: require-corp'); // Désactivé pour CDN
+        header('Cross-Origin-Resource-Policy: cross-origin');
     }
 
     /**
