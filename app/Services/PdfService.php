@@ -122,9 +122,13 @@ class PdfService
                 <table style="margin-bottom: 30px;">
                     <tr>
                         <td style="width: 50%; vertical-align: top; border: none;">
-                            <?php if (!empty($settings['company_logo'])): ?>
-                                <img src="<?= $_ENV['APP_URL'] . $settings['company_logo'] ?>" class="logo" alt="Logo">
-                            <?php endif; ?>
+                            <?php if (!empty($settings['company_logo'])):
+                                // Use absolute file path for Dompdf
+                                $logoPath = realpath(__DIR__ . '/../../public' . $settings['company_logo']);
+                                if ($logoPath && file_exists($logoPath)):
+                            ?>
+                                <img src="<?= $logoPath ?>" class="logo" alt="Logo">
+                            <?php endif; endif; ?>
                             <div class="company-name"><?= htmlspecialchars($settings['company_name'] ?: 'Votre Entreprise') ?></div>
                             <div class="company-info">
                                 <?= htmlspecialchars($settings['company_address']) ?><br>
