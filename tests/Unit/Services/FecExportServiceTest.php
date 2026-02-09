@@ -184,8 +184,8 @@ class FecExportServiceTest extends TestCase
         $content = $service->generate('2024-01-01', '2024-12-31');
 
         // Vérifier la présence des journaux VE (Ventes) et BQ (Banque)
-        $this->assertStringContainsString("\tVE\t", $content);
-        $this->assertStringContainsString("\tBQ\t", $content);
+        $this->assertStringContainsString("VE\tVentes", $content);
+        $this->assertStringContainsString("BQ\tBanque", $content);
     }
 
     public function testGenerateUsesCorrectVatAccount(): void
