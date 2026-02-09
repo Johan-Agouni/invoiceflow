@@ -133,7 +133,7 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          ./vendor/bin/phpunit --coverage-clover coverage.xml --coverage-text
+          ./vendor/bin/phpunit --coverage-clover coverage.xml --coverage-text --display-warnings --display-deprecations
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

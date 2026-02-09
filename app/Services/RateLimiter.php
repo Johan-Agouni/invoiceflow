@@ -50,7 +50,7 @@ class RateLimiter
             $host = $_ENV['REDIS_HOST'] ?? 'redis';
             $port = (int) ($_ENV['REDIS_PORT'] ?? 6379);
 
-            if ($this->redis->connect($host, $port, 2.0)) {
+            if (@$this->redis->connect($host, $port, 2.0)) {
                 $this->useRedis = true;
             }
         } catch (\Exception $e) {
