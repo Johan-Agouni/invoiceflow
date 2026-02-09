@@ -116,6 +116,7 @@ jobs:
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=invoiceflow_test/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
+          echo "APP_KEY=$(openssl rand -hex 32)" >> .env
           cp .env .env.testing
 
       - name: Wait for MySQL
@@ -126,9 +127,9 @@ jobs:
 
       - name: Run database migrations
         run: |
-          mysql -h 127.0.0.1 -u root -proot invoiceflow_test < database/migrations/init.sql
-          mysql -h 127.0.0.1 -u root -proot invoiceflow_test < database/migrations/002_api_tokens.sql
-          mysql -h 127.0.0.1 -u root -proot invoiceflow_test < database/migrations/003_stripe_payments.sql
+          for f in database/migrations/*.sql; do
+            mysql -h 127.0.0.1 -u root -proot invoiceflow_test < "$f"
+          done
 
       - name: Run tests with coverage
         run: |

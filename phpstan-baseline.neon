@@ -1,0 +1,591 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Offset 'id' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Api/ApiController.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, string\\|false given\\.$#"
+			count: 1
+			path: app/Api/ApiController.php
+
+		-
+			message: "#^Offset 'created_at' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Api/AuthApiController.php
+
+		-
+			message: "#^Offset 'email' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Api/AuthApiController.php
+
+		-
+			message: "#^Offset 'id' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Api/AuthApiController.php
+
+		-
+			message: "#^Offset 'name' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Api/AuthApiController.php
+
+		-
+			message: "#^Parameter \\#1 \\$client of method App\\\\Api\\\\ClientApiController\\:\\:formatClient\\(\\) expects array, array\\|null given\\.$#"
+			count: 2
+			path: app/Api/ClientApiController.php
+
+		-
+			message: "#^Static method App\\\\Models\\\\Client\\:\\:getWithStats\\(\\) invoked with 2 parameters, 1 required\\.$#"
+			count: 2
+			path: app/Api/ClientApiController.php
+
+		-
+			message: "#^Offset 'client_id' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Api/InvoiceApiController.php
+
+		-
+			message: "#^Parameter \\#1 \\$invoice of method App\\\\Api\\\\InvoiceApiController\\:\\:formatInvoice\\(\\) expects array, array\\|null given\\.$#"
+			count: 4
+			path: app/Api/InvoiceApiController.php
+
+		-
+			message: "#^Parameter \\#3 \\$settings of method App\\\\Services\\\\PdfService\\:\\:generateInvoice\\(\\) expects array, array\\|null given\\.$#"
+			count: 1
+			path: app/Api/InvoiceApiController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\QuoteItem\\:\\:calculateTotals\\(\\)\\.$#"
+			count: 2
+			path: app/Api/QuoteApiController.php
+
+		-
+			message: "#^Offset 'client_id' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Api/QuoteApiController.php
+
+		-
+			message: "#^Offset 'number' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Api/QuoteApiController.php
+
+		-
+			message: "#^Parameter \\#1 \\$quote of method App\\\\Api\\\\QuoteApiController\\:\\:formatQuote\\(\\) expects array, array\\|null given\\.$#"
+			count: 5
+			path: app/Api/QuoteApiController.php
+
+		-
+			message: "#^Parameter \\#3 \\$settings of method App\\\\Services\\\\PdfService\\:\\:generateQuote\\(\\) expects array, array\\|null given\\.$#"
+			count: 1
+			path: app/Api/QuoteApiController.php
+
+		-
+			message: "#^Offset 'email' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Controllers/AuthController.php
+
+		-
+			message: "#^Offset 'id' does not exist on array\\|null\\.$#"
+			count: 3
+			path: app/Controllers/AuthController.php
+
+		-
+			message: "#^Offset 'name' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Controllers/AuthController.php
+
+		-
+			message: "#^Parameter \\#1 \\$email of method App\\\\Services\\\\MailService\\:\\:sendPasswordReset\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: app/Controllers/AuthController.php
+
+		-
+			message: "#^Parameter \\#1 \\$email of static method App\\\\Models\\\\User\\:\\:findByEmail\\(\\) expects string, string\\|false given\\.$#"
+			count: 3
+			path: app/Controllers/AuthController.php
+
+		-
+			message: "#^Parameter \\#1 \\$name of function setcookie expects string, string\\|false given\\.$#"
+			count: 1
+			path: app/Controllers/AuthController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Client\\:\\:getWithStats\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/ClientController.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of static method App\\\\Models\\\\Client\\:\\:findForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 4
+			path: app/Controllers/ClientController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Controllers\\\\DashboardController\\:\\:calculateTrends\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Controllers\\\\DashboardController\\:\\:getPeriodComparison\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Controllers\\\\DashboardController\\:\\:getStatusDistribution\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Controllers\\\\DashboardController\\:\\:getTopClients\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Client\\:\\:countForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Invoice\\:\\:allForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Invoice\\:\\:getMonthlyRevenue\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Invoice\\:\\:getOverdue\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Invoice\\:\\:getStats\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Quote\\:\\:getStats\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, int\\|false given\\.$#"
+			count: 3
+			path: app/Controllers/DashboardController.php
+
+		-
+			message: "#^Offset 'status' does not exist on array\\|null\\.$#"
+			count: 2
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Parameter \\#1 \\$invoice of method App\\\\Services\\\\MailService\\:\\:sendInvoice\\(\\) expects array, array\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Parameter \\#1 \\$invoice of method App\\\\Services\\\\PdfService\\:\\:generateInvoice\\(\\) expects array, array\\|null given\\.$#"
+			count: 2
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Client\\:\\:allForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 2
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Invoice\\:\\:allForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Invoice\\:\\:generateNumber\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Settings\\:\\:getForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 5
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of static method App\\\\Models\\\\Client\\:\\:findForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of static method App\\\\Models\\\\Invoice\\:\\:findForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 7
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Parameter \\#3 \\$pdfPath of method App\\\\Services\\\\MailService\\:\\:sendInvoice\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/InvoiceController.php
+
+		-
+			message: "#^Offset 'status' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Controllers/PaymentController.php
+
+		-
+			message: "#^Parameter \\#1 \\$payload of method App\\\\Services\\\\StripeService\\:\\:handleWebhook\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: app/Controllers/PaymentController.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of method App\\\\Services\\\\StripeService\\:\\:createPaymentIntent\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/PaymentController.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of method App\\\\Services\\\\StripeService\\:\\:createPaymentLink\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/PaymentController.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of static method App\\\\Models\\\\Invoice\\:\\:findForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 4
+			path: app/Controllers/PaymentController.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Models\\\\QuoteItem\\:\\:calculateTotals\\(\\)\\.$#"
+			count: 2
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#1 \\$quote of method App\\\\Services\\\\MailService\\:\\:sendQuote\\(\\) expects array, array\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#1 \\$quote of method App\\\\Services\\\\PdfService\\:\\:generateQuote\\(\\) expects array, array\\|null given\\.$#"
+			count: 2
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Client\\:\\:allForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 2
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Quote\\:\\:allForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Quote\\:\\:generateNumber\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Settings\\:\\:getForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 5
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of static method App\\\\Models\\\\Client\\:\\:findForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of static method App\\\\Models\\\\Quote\\:\\:convertToInvoice\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#2 \\$userId of static method App\\\\Models\\\\Quote\\:\\:findForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 9
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Parameter \\#3 \\$pdfPath of method App\\\\Services\\\\MailService\\:\\:sendQuote\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/QuoteController.php
+
+		-
+			message: "#^Offset 'password' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Controllers/SettingsController.php
+
+		-
+			message: "#^Parameter \\#1 \\$email of static method App\\\\Models\\\\User\\:\\:findByEmail\\(\\) expects string, string\\|false given\\.$#"
+			count: 1
+			path: app/Controllers/SettingsController.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of static method App\\\\Model\\:\\:find\\(\\) expects int, int\\|null given\\.$#"
+			count: 2
+			path: app/Controllers/SettingsController.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of static method App\\\\Model\\:\\:update\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/SettingsController.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of static method App\\\\Models\\\\User\\:\\:updatePassword\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/SettingsController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Settings\\:\\:getForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/SettingsController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of static method App\\\\Models\\\\Settings\\:\\:updateForUser\\(\\) expects int, int\\|null given\\.$#"
+			count: 4
+			path: app/Controllers/SettingsController.php
+
+		-
+			message: "#^Offset 'email' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of static method App\\\\Model\\:\\:find\\(\\) expects int, int\\|null given\\.$#"
+			count: 2
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Services\\\\TwoFactorAuthService\\:\\:disable\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Services\\\\TwoFactorAuthService\\:\\:enable\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Services\\\\TwoFactorAuthService\\:\\:getRecoveryCodes\\(\\) expects int, int\\|null given\\.$#"
+			count: 3
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Services\\\\TwoFactorAuthService\\:\\:getTrustedDevices\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Services\\\\TwoFactorAuthService\\:\\:isEnabled\\(\\) expects int, int\\|null given\\.$#"
+			count: 4
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Services\\\\TwoFactorAuthService\\:\\:regenerateRecoveryCodes\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Services\\\\TwoFactorAuthService\\:\\:revokeAllTrustedDevices\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Parameter \\#1 \\$userId of method App\\\\Services\\\\TwoFactorAuthService\\:\\:revokeTrustedDevice\\(\\) expects int, int\\|null given\\.$#"
+			count: 1
+			path: app/Controllers/TwoFactorController.php
+
+		-
+			message: "#^Property App\\\\Middleware\\\\RateLimitMiddleware\\:\\:\\$maxRequests is never read, only written\\.$#"
+			count: 1
+			path: app/Middleware/RateLimitMiddleware.php
+
+		-
+			message: "#^Offset 'count' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Models/Invoice.php
+
+		-
+			message: "#^Offset 'count' does not exist on array\\|null\\.$#"
+			count: 1
+			path: app/Models/Quote.php
+
+		-
+			message: "#^Call to an undefined method object\\:\\:handle\\(\\)\\.$#"
+			count: 1
+			path: app/Router.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function rtrim expects string, string\\|false\\|null given\\.$#"
+			count: 1
+			path: app/Router.php
+
+		-
+			message: "#^Property App\\\\Router\\:\\:\\$middleware is never read, only written\\.$#"
+			count: 1
+			path: app/Router.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Database\\:\\:lastInsertId\\(\\)\\.$#"
+			count: 1
+			path: app/Services/AuditLogService.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/AuditLogService.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fputcsv expects resource, resource\\|false given\\.$#"
+			count: 2
+			path: app/Services/AuditLogService.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fwrite expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/AuditLogService.php
+
+		-
+			message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, int\\|false given\\.$#"
+			count: 1
+			path: app/Services/CurrencyService.php
+
+		-
+			message: "#^Method App\\\\Services\\\\ExportService\\:\\:toCsv\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: app/Services/ExportService.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/ExportService.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fputcsv expects resource, resource\\|false given\\.$#"
+			count: 2
+			path: app/Services/ExportService.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function fwrite expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/ExportService.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function rewind expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/ExportService.php
+
+		-
+			message: "#^Parameter \\#1 \\$stream of function stream_get_contents expects resource, resource\\|false given\\.$#"
+			count: 1
+			path: app/Services/ExportService.php
+
+		-
+			message: "#^Constant App\\\\Services\\\\FecExportService\\:\\:COMPTE_VENTES_PRODUITS is unused\\.$#"
+			count: 1
+			path: app/Services/FecExportService.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function strlen expects string, string\\|null given\\.$#"
+			count: 1
+			path: app/Services/FecExportService.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function substr expects string, string\\|null given\\.$#"
+			count: 1
+			path: app/Services/FecExportService.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function trim expects string, string\\|null given\\.$#"
+			count: 1
+			path: app/Services/FecExportService.php
+
+		-
+			message: "#^Method App\\\\Services\\\\PdfService\\:\\:renderInvoiceHtml\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: app/Services/PdfService.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function base64_encode expects string, string\\|false given\\.$#"
+			count: 1
+			path: app/Services/PdfService.php
+
+		-
+			message: "#^Argument of an invalid type array\\<int, string\\>\\|false supplied for foreach, only iterables are supported\\.$#"
+			count: 1
+			path: app/Services/RateLimiter.php
+
+		-
+			message: "#^Cannot call method expire\\(\\) on Redis\\|null\\.$#"
+			count: 1
+			path: app/Services/RateLimiter.php
+
+		-
+			message: "#^Cannot call method zAdd\\(\\) on Redis\\|null\\.$#"
+			count: 1
+			path: app/Services/RateLimiter.php
+
+		-
+			message: "#^Cannot call method zCard\\(\\) on Redis\\|null\\.$#"
+			count: 1
+			path: app/Services/RateLimiter.php
+
+		-
+			message: "#^Cannot call method zRemRangeByScore\\(\\) on Redis\\|null\\.$#"
+			count: 1
+			path: app/Services/RateLimiter.php
+
+		-
+			message: "#^Comparison operation \"\\<\" between \\(int\\|Redis\\|false\\) and int results in an error\\.$#"
+			count: 1
+			path: app/Services/RateLimiter.php
+
+		-
+			message: "#^Method App\\\\Services\\\\RateLimiter\\:\\:check\\(\\) should return array\\{allowed\\: bool, remaining\\: int, reset\\: int, limit\\: int\\} but returns array\\.$#"
+			count: 2
+			path: app/Services/RateLimiter.php
+
+		-
+			message: "#^Method App\\\\Services\\\\RateLimiter\\:\\:sanitizeKey\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: app/Services/RateLimiter.php
+
+		-
+			message: "#^Call to an undefined static method App\\\\Database\\:\\:lastInsertId\\(\\)\\.$#"
+			count: 2
+			path: app/Services/RecurringInvoiceService.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: app/Services/RecurringInvoiceService.php
+
+		-
+			message: "#^Parameter \\#3 \\$day of method DateTime\\:\\:setDate\\(\\) expects int, int\\<min, 31\\>\\|null given\\.$#"
+			count: 2
+			path: app/Services/RecurringInvoiceService.php
+
+		-
+			message: "#^Call to static method getForUser\\(\\) on an unknown class App\\\\Models\\\\Setting\\.$#"
+			count: 1
+			path: app/Services/ReminderService.php
+
+		-
+			message: "#^Parameter \\#1 \\$json of function json_decode expects string, bool\\|string given\\.$#"
+			count: 1
+			path: app/Services/StripeService.php
+
+		-
+			message: "#^Method App\\\\Services\\\\TwoFactorAuthService\\:\\:decryptSecret\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: app/Services/TwoFactorAuthService.php
+
+		-
+			message: "#^Method App\\\\Services\\\\TwoFactorAuthService\\:\\:verifyCode\\(\\) should return bool but returns bool\\|int\\.$#"
+			count: 1
+			path: app/Services/TwoFactorAuthService.php
+
+		-
+			message: "#^Parameter \\#1 \\$string of function substr expects string, string\\|false given\\.$#"
+			count: 2
+			path: app/Services/TwoFactorAuthService.php
+
+		-
+			message: "#^Parameter \\#2 \\$timestamp of function date expects int\\|null, int\\|false given\\.$#"
+			count: 1
+			path: app/Services/TwoFactorAuthService.php
