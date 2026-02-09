@@ -45,7 +45,13 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-interaction
 
       - name: Check PHP syntax
-        run: find app -name "*.php" -exec php -l {} \; | grep -v "No syntax errors"
+        run: |
+          errors=$(find app -name "*.php" -exec php -l {} \; 2>&1 | grep -i "parse error" || true)
+          if [ -n "$errors" ]; then
+            echo "$errors"
+            exit 1
+          fi
+          echo "No syntax errors found."
 
       - name: Run PHP CS Fixer
         run: vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes
@@ -110,6 +116,7 @@ jobs:
           sed -i 's/DB_DATABASE=.*/DB_DATABASE=invoiceflow_test/' .env
           sed -i 's/DB_USERNAME=.*/DB_USERNAME=root/' .env
           sed -i 's/DB_PASSWORD=.*/DB_PASSWORD=root/' .env
+          cp .env .env.testing
 
       - name: Wait for MySQL
         run: |
