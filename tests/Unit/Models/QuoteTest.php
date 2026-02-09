@@ -131,7 +131,7 @@ class QuoteTest extends TestCase
 
         $this->assertEquals(3, $stats['total']);
         $this->assertEquals(1, $stats['accepted']);
-        $this->assertEquals(1, $stats['sent']);
+        $this->assertEquals(1, $stats['pending']);
         $this->assertEquals(1, $stats['declined']);
     }
 

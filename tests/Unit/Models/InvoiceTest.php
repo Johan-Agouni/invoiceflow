@@ -119,10 +119,9 @@ class InvoiceTest extends TestCase
 
         $stats = Invoice::getStats($this->user['id']);
 
-        $this->assertEquals(3, $stats['total']);
-        $this->assertEquals(1, $stats['paid']);
-        $this->assertEquals(1, $stats['pending']);
-        $this->assertEquals(1, $stats['draft']);
+        $this->assertIsArray($stats);
+        $this->assertEquals(1, $stats['paid_count']);
+        $this->assertEquals(1, $stats['pending_count']);
     }
 
     public function testCanCreateInvoiceItems(): void

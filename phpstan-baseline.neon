@@ -56,11 +56,6 @@ parameters:
 			path: app/Api/InvoiceApiController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Models\\\\QuoteItem\\:\\:calculateTotals\\(\\)\\.$#"
-			count: 2
-			path: app/Api/QuoteApiController.php
-
-		-
 			message: "#^Offset 'client_id' does not exist on array\\|null\\.$#"
 			count: 1
 			path: app/Api/QuoteApiController.php
@@ -251,11 +246,6 @@ parameters:
 			path: app/Controllers/PaymentController.php
 
 		-
-			message: "#^Call to an undefined static method App\\\\Models\\\\QuoteItem\\:\\:calculateTotals\\(\\)\\.$#"
-			count: 2
-			path: app/Controllers/QuoteController.php
-
-		-
 			message: "#^Parameter \\#1 \\$quote of method App\\\\Services\\\\MailService\\:\\:sendQuote\\(\\) expects array, array\\|null given\\.$#"
 			count: 1
 			path: app/Controllers/QuoteController.php
@@ -391,6 +381,11 @@ parameters:
 			path: app/Controllers/TwoFactorController.php
 
 		-
+			message: "#^Method App\\\\Database\\:\\:lastInsertId\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: app/Database.php
+
+		-
 			message: "#^Property App\\\\Middleware\\\\RateLimitMiddleware\\:\\:\\$maxRequests is never read, only written\\.$#"
 			count: 1
 			path: app/Middleware/RateLimitMiddleware.php
@@ -419,11 +414,6 @@ parameters:
 			message: "#^Property App\\\\Router\\:\\:\\$middleware is never read, only written\\.$#"
 			count: 1
 			path: app/Router.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Database\\:\\:lastInsertId\\(\\)\\.$#"
-			count: 1
-			path: app/Services/AuditLogService.php
 
 		-
 			message: "#^Parameter \\#1 \\$stream of function fclose expects resource, resource\\|false given\\.$#"
@@ -544,11 +534,6 @@ parameters:
 			message: "#^Method App\\\\Services\\\\RateLimiter\\:\\:sanitizeKey\\(\\) should return string but returns string\\|null\\.$#"
 			count: 1
 			path: app/Services/RateLimiter.php
-
-		-
-			message: "#^Call to an undefined static method App\\\\Database\\:\\:lastInsertId\\(\\)\\.$#"
-			count: 2
-			path: app/Services/RecurringInvoiceService.php
 
 		-
 			message: "#^If condition is always true\\.$#"

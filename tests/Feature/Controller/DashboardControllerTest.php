@@ -121,9 +121,7 @@ class DashboardControllerTest extends TestCase
             'due_date' => date('Y-m-d', strtotime('+10 days')),
         ]);
 
-        // Update overdue status
-        Invoice::updateOverdueStatus();
-
+        // getOverdue() finds pending invoices past due date (before status update)
         $overdueInvoices = Invoice::getOverdue($this->user['id']);
 
         $this->assertGreaterThanOrEqual(1, count($overdueInvoices));

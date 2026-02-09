@@ -61,7 +61,7 @@ class RecurringInvoiceService
                 $totals['vat_amount'],
                 $totals['total'],
                 $data['notes'] ?? null,
-                $data['auto_send'] ?? 0,
+                (int) ($data['auto_send'] ?? 0),
                 self::STATUS_ACTIVE,
             ]
         )->rowCount() > 0 ? (int) Database::lastInsertId() : 0;
@@ -105,7 +105,7 @@ class RecurringInvoiceService
                 $totals['vat_amount'],
                 $totals['total'],
                 $data['notes'] ?? null,
-                $data['auto_send'] ?? 0,
+                (int) ($data['auto_send'] ?? 0),
                 $id,
             ]
         );

@@ -40,6 +40,11 @@ class Database
         return self::$instance;
     }
 
+    public static function lastInsertId(): string
+    {
+        return self::getInstance()->lastInsertId();
+    }
+
     public static function query(string $sql, array $params = []): \PDOStatement
     {
         $stmt = self::getInstance()->prepare($sql);

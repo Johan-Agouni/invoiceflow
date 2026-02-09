@@ -151,7 +151,7 @@ class InvoiceWorkflowTest extends TestCase
 
         // Verify overdue status can be filtered
         $stats = Invoice::getStats($this->user['id']);
-        $this->assertArrayHasKey('pending', $stats);
+        $this->assertArrayHasKey('pending_count', $stats);
     }
 
     public function testInvoiceItemCalculations(): void

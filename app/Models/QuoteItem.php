@@ -37,4 +37,22 @@ class QuoteItem extends Model
     {
         return Database::delete('quote_items', 'quote_id = ?', [$quoteId]);
     }
+
+    public static function calculateTotals(array $items): array
+    {
+        $subtotal = 0;
+        $vatAmount = 0;
+
+        foreach ($items as $item) {
+            $lineTotal = $item['quantity'] * $item['unit_price'];
+            $subtotal += $lineTotal;
+            $vatAmount += $lineTotal * ($item['vat_rate'] / 100);
+        }
+
+        return [
+            'subtotal' => round($subtotal, 2),
+            'vat_amount' => round($vatAmount, 2),
+            'total' => round($subtotal + $vatAmount, 2),
+        ];
+    }
 }

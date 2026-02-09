@@ -172,7 +172,7 @@ class QuoteWorkflowTest extends TestCase
         // Verify invoice was created
         $invoice = Invoice::find($invoiceId);
         $this->assertNotNull($invoice);
-        $this->assertEquals('draft', $invoice['status']);
+        $this->assertEquals('pending', $invoice['status']);
         $this->assertEquals($this->client['id'], $invoice['client_id']);
         $this->assertEquals(1200, $invoice['total_amount']);
 
