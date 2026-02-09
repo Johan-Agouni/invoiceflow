@@ -10,6 +10,7 @@ use App\Models\Client;
  * Client API Controller
  *
  * @api
+ *
  * @tag Clients
  */
 class ClientApiController extends ApiController
@@ -18,9 +19,7 @@ class ClientApiController extends ApiController
      * List all clients
      *
      * @route GET /api/v1/clients
-     * @param string $search Search by company name or email
-     * @param int $page Page number (default: 1)
-     * @param int $per_page Items per page (default: 20, max: 100)
+     *
      * @response 200 {"success": true, "data": [...], "meta": {...}}
      */
     public function index(): void
@@ -53,7 +52,9 @@ class ClientApiController extends ApiController
      * Get a single client
      *
      * @route GET /api/v1/clients/{id}
+     *
      * @param int $id Client ID
+     *
      * @response 200 {"success": true, "data": {...}}
      * @response 404 {"success": false, "message": "Client not found"}
      */
@@ -77,7 +78,9 @@ class ClientApiController extends ApiController
      * Create a new client
      *
      * @route POST /api/v1/clients
+     *
      * @body {"company_name": "string", "contact_name": "string", "email": "string", ...}
+     *
      * @response 201 {"success": true, "data": {...}}
      * @response 422 {"success": false, "errors": {...}}
      */
@@ -110,8 +113,11 @@ class ClientApiController extends ApiController
      * Update a client
      *
      * @route PUT /api/v1/clients/{id}
+     *
      * @param int $id Client ID
+     *
      * @body {"company_name": "string", ...}
+     *
      * @response 200 {"success": true, "data": {...}}
      * @response 404 {"success": false, "message": "Client not found"}
      */
@@ -139,7 +145,7 @@ class ClientApiController extends ApiController
         ]);
 
         // Remove null values
-        $data = array_filter($data, fn($v) => $v !== null);
+        $data = array_filter($data, fn ($v) => $v !== null);
 
         Client::update($id, $data);
         $client = Client::find($id);
@@ -151,7 +157,9 @@ class ClientApiController extends ApiController
      * Delete a client
      *
      * @route DELETE /api/v1/clients/{id}
+     *
      * @param int $id Client ID
+     *
      * @response 200 {"success": true, "message": "Client deleted"}
      * @response 404 {"success": false, "message": "Client not found"}
      */

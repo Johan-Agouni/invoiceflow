@@ -65,8 +65,8 @@ class AuditLogService
         $newValues = self::filterSensitiveData($newValues);
 
         $result = Database::query(
-            "INSERT INTO audit_logs (user_id, action, entity_type, entity_id, old_values, new_values, ip_address, user_agent, metadata)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            'INSERT INTO audit_logs (user_id, action, entity_type, entity_id, old_values, new_values, ip_address, user_agent, metadata)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
                 self::$currentUserId ?? $_SESSION['user_id'] ?? null,
                 $action,
@@ -163,10 +163,10 @@ class AuditLogService
     public static function getLogsForUser(int $userId, int $limit = 50, int $offset = 0): array
     {
         return Database::fetchAll(
-            "SELECT * FROM audit_logs
+            'SELECT * FROM audit_logs
              WHERE user_id = ?
              ORDER BY created_at DESC
-             LIMIT ? OFFSET ?",
+             LIMIT ? OFFSET ?',
             [$userId, $limit, $offset]
         );
     }
@@ -177,12 +177,12 @@ class AuditLogService
     public static function getLogsForEntity(string $entityType, int $entityId, int $limit = 50): array
     {
         return Database::fetchAll(
-            "SELECT al.*, u.name as user_name, u.email as user_email
+            'SELECT al.*, u.name as user_name, u.email as user_email
              FROM audit_logs al
              LEFT JOIN users u ON u.id = al.user_id
              WHERE al.entity_type = ? AND al.entity_id = ?
              ORDER BY al.created_at DESC
-             LIMIT ?",
+             LIMIT ?',
             [$entityType, $entityId, $limit]
         );
     }
@@ -192,48 +192,48 @@ class AuditLogService
      */
     public static function search(array $filters, int $limit = 100, int $offset = 0): array
     {
-        $sql = "SELECT al.*, u.name as user_name, u.email as user_email
+        $sql = 'SELECT al.*, u.name as user_name, u.email as user_email
                 FROM audit_logs al
                 LEFT JOIN users u ON u.id = al.user_id
-                WHERE 1=1";
+                WHERE 1=1';
         $params = [];
 
         if (!empty($filters['user_id'])) {
-            $sql .= " AND al.user_id = ?";
+            $sql .= ' AND al.user_id = ?';
             $params[] = $filters['user_id'];
         }
 
         if (!empty($filters['action'])) {
-            $sql .= " AND al.action = ?";
+            $sql .= ' AND al.action = ?';
             $params[] = $filters['action'];
         }
 
         if (!empty($filters['entity_type'])) {
-            $sql .= " AND al.entity_type = ?";
+            $sql .= ' AND al.entity_type = ?';
             $params[] = $filters['entity_type'];
         }
 
         if (!empty($filters['entity_id'])) {
-            $sql .= " AND al.entity_id = ?";
+            $sql .= ' AND al.entity_id = ?';
             $params[] = $filters['entity_id'];
         }
 
         if (!empty($filters['date_from'])) {
-            $sql .= " AND al.created_at >= ?";
+            $sql .= ' AND al.created_at >= ?';
             $params[] = $filters['date_from'];
         }
 
         if (!empty($filters['date_to'])) {
-            $sql .= " AND al.created_at <= ?";
+            $sql .= ' AND al.created_at <= ?';
             $params[] = $filters['date_to'];
         }
 
         if (!empty($filters['ip_address'])) {
-            $sql .= " AND al.ip_address = ?";
+            $sql .= ' AND al.ip_address = ?';
             $params[] = $filters['ip_address'];
         }
 
-        $sql .= " ORDER BY al.created_at DESC LIMIT ? OFFSET ?";
+        $sql .= ' ORDER BY al.created_at DESC LIMIT ? OFFSET ?';
         $params[] = $limit;
         $params[] = $offset;
 
@@ -245,21 +245,21 @@ class AuditLogService
      */
     public static function count(array $filters = []): int
     {
-        $sql = "SELECT COUNT(*) as count FROM audit_logs WHERE 1=1";
+        $sql = 'SELECT COUNT(*) as count FROM audit_logs WHERE 1=1';
         $params = [];
 
         if (!empty($filters['user_id'])) {
-            $sql .= " AND user_id = ?";
+            $sql .= ' AND user_id = ?';
             $params[] = $filters['user_id'];
         }
 
         if (!empty($filters['action'])) {
-            $sql .= " AND action = ?";
+            $sql .= ' AND action = ?';
             $params[] = $filters['action'];
         }
 
         if (!empty($filters['entity_type'])) {
-            $sql .= " AND entity_type = ?";
+            $sql .= ' AND entity_type = ?';
             $params[] = $filters['entity_type'];
         }
 
@@ -274,7 +274,7 @@ class AuditLogService
     public static function cleanup(int $daysToKeep = 365): int
     {
         $result = Database::query(
-            "DELETE FROM audit_logs WHERE created_at < DATE_SUB(NOW(), INTERVAL ? DAY)",
+            'DELETE FROM audit_logs WHERE created_at < DATE_SUB(NOW(), INTERVAL ? DAY)',
             [$daysToKeep]
         );
 

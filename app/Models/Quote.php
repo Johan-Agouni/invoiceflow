@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Model;
 use App\Database;
+use App\Model;
 
 class Quote extends Model
 {
@@ -20,18 +20,18 @@ class Quote extends Model
 
     public static function allForUser(int $userId, ?string $status = null): array
     {
-        $sql = "SELECT q.*, c.company_name as client_name, c.email as client_email
+        $sql = 'SELECT q.*, c.company_name as client_name, c.email as client_email
                 FROM quotes q
                 JOIN clients c ON c.id = q.client_id
-                WHERE q.user_id = ?";
+                WHERE q.user_id = ?';
         $params = [$userId];
 
         if ($status) {
-            $sql .= " AND q.status = ?";
+            $sql .= ' AND q.status = ?';
             $params[] = $status;
         }
 
-        $sql .= " ORDER BY q.created_at DESC";
+        $sql .= ' ORDER BY q.created_at DESC';
 
         return Database::fetchAll($sql, $params);
     }
@@ -39,11 +39,11 @@ class Quote extends Model
     public static function findForUser(int $id, int $userId): ?array
     {
         return Database::fetch(
-            "SELECT q.*, c.company_name, c.email as client_email, c.address as client_address,
+            'SELECT q.*, c.company_name, c.email as client_email, c.address as client_address,
                     c.postal_code as client_postal_code, c.city as client_city, c.country as client_country
              FROM quotes q
              JOIN clients c ON c.id = q.client_id
-             WHERE q.id = ? AND q.user_id = ?",
+             WHERE q.id = ? AND q.user_id = ?',
             [$id, $userId]
         );
     }
@@ -54,11 +54,12 @@ class Quote extends Model
         $prefix = 'DEV';
 
         $count = Database::fetch(
-            "SELECT COUNT(*) as count FROM quotes WHERE user_id = ? AND YEAR(created_at) = ?",
+            'SELECT COUNT(*) as count FROM quotes WHERE user_id = ? AND YEAR(created_at) = ?',
             [$userId, $year]
         );
 
         $number = ((int) $count['count']) + 1;
+
         return sprintf('%s-%s-%04d', $prefix, $year, $number);
     }
 

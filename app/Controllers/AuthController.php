@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Controller;
-use App\Models\User;
 use App\Models\Settings;
+use App\Models\User;
 use App\Services\MailService;
 
 class AuthController extends Controller

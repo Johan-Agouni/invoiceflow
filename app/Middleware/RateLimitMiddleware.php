@@ -16,7 +16,9 @@ use App\Services\RateLimiter;
 class RateLimitMiddleware
 {
     private RateLimiter $limiter;
+
     private int $maxRequests;
+
     private int $windowSeconds;
 
     public function __construct(int $maxRequests = 100, int $windowSeconds = 60)
@@ -32,6 +34,7 @@ class RateLimitMiddleware
      * Handle the rate limit check
      *
      * @param string|null $identifier Custom identifier (defaults to IP or token)
+     *
      * @return bool True if request is allowed
      */
     public function handle(?string $identifier = null): bool
@@ -44,6 +47,7 @@ class RateLimitMiddleware
 
         if (!$result['allowed']) {
             $this->sendTooManyRequestsResponse($result);
+
             return false;
         }
 

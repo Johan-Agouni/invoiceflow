@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\Quote;
-use App\Models\QuoteItem;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use App\Models\Quote;
+use App\Models\QuoteItem;
+use Tests\TestCase;
 
 /**
  * Quote Workflow Feature Tests
@@ -21,6 +21,7 @@ use App\Models\InvoiceItem;
 class QuoteWorkflowTest extends TestCase
 {
     private array $user;
+
     private array $client;
 
     protected function setUp(): void

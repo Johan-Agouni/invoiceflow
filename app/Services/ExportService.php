@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use App\Models\Client;
 
 /**
  * Export Service
@@ -21,6 +21,7 @@ class ExportService
      *
      * @param array $invoices List of invoices to export
      * @param string $locale Language for headers (fr|en)
+     *
      * @return string CSV content
      */
     public function toCsv(array $invoices, string $locale = 'fr'): string
@@ -58,6 +59,7 @@ class ExportService
      *
      * @param array $invoices List of invoices to export
      * @param string $locale Language for headers (fr|en)
+     *
      * @return string Excel XML content (SpreadsheetML)
      */
     public function toExcel(array $invoices, string $locale = 'fr'): string

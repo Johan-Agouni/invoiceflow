@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Database;
-use App\Models\Invoice;
 use App\Models\Client;
+use App\Models\Invoice;
 use App\Models\Setting;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -19,6 +19,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 class ReminderService
 {
     private array $config;
+
     private TranslationService $translator;
 
     // Reminder schedule (days after due date)
@@ -259,21 +260,21 @@ class ReminderService
 
         if ($locale === 'fr') {
             $urgencyMessages = [
-                1 => "Nous vous rappelons que la facture ci-dessous est en attente de paiement.",
+                1 => 'Nous vous rappelons que la facture ci-dessous est en attente de paiement.',
                 2 => "Malgre notre precedent rappel, nous n'avons toujours pas recu le paiement de la facture ci-dessous.",
-                3 => "Nous vous contactons une nouvelle fois concernant la facture impayee ci-dessous. Merci de regulariser cette situation rapidement.",
+                3 => 'Nous vous contactons une nouvelle fois concernant la facture impayee ci-dessous. Merci de regulariser cette situation rapidement.',
                 4 => "<strong class='overdue'>URGENT :</strong> La facture ci-dessous est en retard de {$daysOverdue} jours. Nous vous prions de proceder au paiement dans les plus brefs delais pour eviter des frais supplementaires.",
             ];
         } else {
             $urgencyMessages = [
-                1 => "This is a friendly reminder that the invoice below is pending payment.",
-                2 => "Despite our previous reminder, we have not yet received payment for the invoice below.",
-                3 => "We are reaching out again regarding the unpaid invoice below. Please settle this matter promptly.",
+                1 => 'This is a friendly reminder that the invoice below is pending payment.',
+                2 => 'Despite our previous reminder, we have not yet received payment for the invoice below.',
+                3 => 'We are reaching out again regarding the unpaid invoice below. Please settle this matter promptly.',
                 4 => "<strong class='overdue'>URGENT:</strong> The invoice below is {$daysOverdue} days overdue. Please process the payment immediately to avoid additional charges.",
             ];
         }
 
-        $html .= "<p>" . ($urgencyMessages[$reminderCount] ?? $urgencyMessages[1]) . "</p>";
+        $html .= '<p>' . ($urgencyMessages[$reminderCount] ?? $urgencyMessages[1]) . '</p>';
 
         $html .= "
                     <div class='invoice-details'>
@@ -281,8 +282,8 @@ class ReminderService
                         <p><strong>" . ($locale === 'fr' ? 'Date d\'emission' : 'Issue Date') . ":</strong> {$invoice['issue_date']}</p>
                         <p><strong>" . ($locale === 'fr' ? 'Date d\'echeance' : 'Due Date') . ":</strong> <span class='overdue'>{$invoice['due_date']}</span></p>
                         <p><strong>" . ($locale === 'fr' ? 'Montant total' : 'Total Amount') . ":</strong></p>
-                        <p class='amount'>" . number_format((float) $invoice['total_amount'], 2, ',', ' ') . " EUR</p>
-                    </div>";
+                        <p class='amount'>" . number_format((float) $invoice['total_amount'], 2, ',', ' ') . ' EUR</p>
+                    </div>';
 
         if (!empty($settings['bank_iban'])) {
             $html .= "
@@ -292,21 +293,21 @@ class ReminderService
             if (!empty($settings['bank_bic'])) {
                 $html .= "<p>BIC: {$settings['bank_bic']}</p>";
             }
-            $html .= "</div>";
+            $html .= '</div>';
         }
 
-        $html .= "
-                    <p>" . ($locale === 'fr' ? 'Si vous avez deja effectue ce paiement, veuillez ignorer ce message.' : 'If you have already made this payment, please disregard this message.') . "</p>
-                    <p>" . ($locale === 'fr' ? 'Pour toute question, n\'hesitez pas a nous contacter.' : 'If you have any questions, please don\'t hesitate to contact us.') . "</p>
-                    <p>" . ($locale === 'fr' ? 'Cordialement,' : 'Best regards,') . "<br>{$companyName}</p>
+        $html .= '
+                    <p>' . ($locale === 'fr' ? 'Si vous avez deja effectue ce paiement, veuillez ignorer ce message.' : 'If you have already made this payment, please disregard this message.') . '</p>
+                    <p>' . ($locale === 'fr' ? 'Pour toute question, n\'hesitez pas a nous contacter.' : 'If you have any questions, please don\'t hesitate to contact us.') . '</p>
+                    <p>' . ($locale === 'fr' ? 'Cordialement,' : 'Best regards,') . "<br>{$companyName}</p>
                 </div>
                 <div class='footer'>
                     <p>{$companyName}</p>
-                    <p>" . ($settings['company_address'] ?? '') . "</p>
+                    <p>" . ($settings['company_address'] ?? '') . '</p>
                 </div>
             </div>
         </body>
-        </html>";
+        </html>';
 
         return $html;
     }
@@ -348,7 +349,8 @@ class ReminderService
 
             return $mail->send();
         } catch (\Exception $e) {
-            error_log("Failed to send reminder email: " . $e->getMessage());
+            error_log('Failed to send reminder email: ' . $e->getMessage());
+
             return false;
         }
     }
@@ -359,7 +361,7 @@ class ReminderService
     private function updateReminderStatus(int $invoiceId, int $reminderCount): void
     {
         Database::query(
-            "UPDATE invoices SET reminder_count = ?, last_reminder_at = NOW() WHERE id = ?",
+            'UPDATE invoices SET reminder_count = ?, last_reminder_at = NOW() WHERE id = ?',
             [$reminderCount, $invoiceId]
         );
     }

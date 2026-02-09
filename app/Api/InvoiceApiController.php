@@ -4,17 +4,18 @@ declare(strict_types=1);
 
 namespace App\Api;
 
+use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use App\Models\Client;
-use App\Services\PdfService;
 use App\Services\ExportService;
+use App\Services\PdfService;
 use App\Services\ReminderService;
 
 /**
  * Invoice API Controller
  *
  * @api
+ *
  * @tag Invoices
  */
 class InvoiceApiController extends ApiController
@@ -23,10 +24,7 @@ class InvoiceApiController extends ApiController
      * List all invoices
      *
      * @route GET /api/v1/invoices
-     * @param string $status Filter by status (draft, pending, paid, overdue, cancelled)
-     * @param int $client_id Filter by client
-     * @param int $page Page number
-     * @param int $per_page Items per page
+     *
      * @response 200 {"success": true, "data": [...], "meta": {...}}
      */
     public function index(): void
@@ -42,7 +40,7 @@ class InvoiceApiController extends ApiController
 
         // Filter by client if specified
         if ($clientId) {
-            $invoices = array_filter($invoices, fn($inv) => $inv['client_id'] == $clientId);
+            $invoices = array_filter($invoices, fn ($inv) => $inv['client_id'] == $clientId);
         }
 
         $total = count($invoices);
@@ -58,7 +56,9 @@ class InvoiceApiController extends ApiController
      * Get a single invoice
      *
      * @route GET /api/v1/invoices/{id}
+     *
      * @param int $id Invoice ID
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function show(int $id): void
@@ -81,7 +81,9 @@ class InvoiceApiController extends ApiController
      * Create a new invoice
      *
      * @route POST /api/v1/invoices
+     *
      * @body {"client_id": 1, "issue_date": "2024-01-15", "due_date": "2024-02-15", "items": [...]}
+     *
      * @response 201 {"success": true, "data": {...}}
      */
     public function store(): void
@@ -139,7 +141,9 @@ class InvoiceApiController extends ApiController
      * Update an invoice
      *
      * @route PUT /api/v1/invoices/{id}
+     *
      * @param int $id Invoice ID
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function update(int $id): void
@@ -188,7 +192,7 @@ class InvoiceApiController extends ApiController
         }
 
         // Remove null values
-        $data = array_filter($data, fn($v) => $v !== null);
+        $data = array_filter($data, fn ($v) => $v !== null);
 
         if (!empty($data)) {
             Invoice::update($id, $data);
@@ -205,7 +209,9 @@ class InvoiceApiController extends ApiController
      * Delete an invoice
      *
      * @route DELETE /api/v1/invoices/{id}
+     *
      * @param int $id Invoice ID
+     *
      * @response 200 {"success": true, "message": "Invoice deleted"}
      */
     public function destroy(int $id): void
@@ -231,7 +237,9 @@ class InvoiceApiController extends ApiController
      * Send invoice to client
      *
      * @route POST /api/v1/invoices/{id}/send
+     *
      * @param int $id Invoice ID
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function send(int $id): void
@@ -254,8 +262,11 @@ class InvoiceApiController extends ApiController
      * Mark invoice as paid
      *
      * @route POST /api/v1/invoices/{id}/pay
+     *
      * @param int $id Invoice ID
+     *
      * @body {"paid_at": "2024-01-20"} Optional payment date
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function markPaid(int $id): void
@@ -279,7 +290,9 @@ class InvoiceApiController extends ApiController
      * Download invoice PDF
      *
      * @route GET /api/v1/invoices/{id}/pdf
+     *
      * @param int $id Invoice ID
+     *
      * @response 200 PDF file
      */
     public function pdf(int $id): void
@@ -303,7 +316,9 @@ class InvoiceApiController extends ApiController
      * Send payment reminder for an invoice
      *
      * @route POST /api/v1/invoices/{id}/remind
+     *
      * @param int $id Invoice ID
+     *
      * @response 200 {"success": true, "message": "Reminder sent"}
      */
     public function sendReminder(int $id): void
@@ -340,6 +355,7 @@ class InvoiceApiController extends ApiController
      * Get invoice statistics
      *
      * @route GET /api/v1/invoices/stats
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function stats(): void
@@ -371,8 +387,7 @@ class InvoiceApiController extends ApiController
      * Export invoices to CSV
      *
      * @route GET /api/v1/invoices/export/csv
-     * @param string $status Filter by status
-     * @param string $lang Language (fr|en)
+     *
      * @response 200 CSV file
      */
     public function exportCsv(): void
@@ -398,8 +413,7 @@ class InvoiceApiController extends ApiController
      * Export invoices to Excel
      *
      * @route GET /api/v1/invoices/export/excel
-     * @param string $status Filter by status
-     * @param string $lang Language (fr|en)
+     *
      * @response 200 Excel file
      */
     public function exportExcel(): void
@@ -456,7 +470,7 @@ class InvoiceApiController extends ApiController
         }
 
         if ($items) {
-            $formatted['items'] = array_map(fn($item) => [
+            $formatted['items'] = array_map(fn ($item) => [
                 'id' => (int) $item['id'],
                 'description' => $item['description'],
                 'quantity' => (float) $item['quantity'],

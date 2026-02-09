@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
+use App\Database;
 use App\Models\Invoice;
 use App\Services\StripeService;
-use App\Database;
 use ReflectionClass;
+use Tests\TestCase;
 
 /**
  * Stripe Webhook Feature Tests
@@ -20,7 +20,9 @@ use ReflectionClass;
 class StripeWebhookTest extends TestCase
 {
     private array $user;
+
     private array $client;
+
     private StripeService $stripeService;
 
     protected function setUp(): void
@@ -100,7 +102,7 @@ class StripeWebhookTest extends TestCase
 
         // Store initial stripe_payment_intent_id
         Database::query(
-            "UPDATE invoices SET stripe_payment_intent_id = ? WHERE id = ?",
+            'UPDATE invoices SET stripe_payment_intent_id = ? WHERE id = ?',
             ['pi_test_123', $invoice['id']]
         );
 
@@ -125,7 +127,7 @@ class StripeWebhookTest extends TestCase
 
         // Verify invoice payment status was updated to failed
         $updatedInvoice = Database::fetch(
-            "SELECT stripe_payment_status FROM invoices WHERE id = ?",
+            'SELECT stripe_payment_status FROM invoices WHERE id = ?',
             [$invoice['id']]
         );
         $this->assertEquals('failed', $updatedInvoice['stripe_payment_status']);
@@ -228,7 +230,7 @@ class StripeWebhookTest extends TestCase
 
         // Verify all payment fields were updated
         $updatedInvoice = Database::fetch(
-            "SELECT status, paid_at, stripe_payment_id, stripe_payment_status FROM invoices WHERE id = ?",
+            'SELECT status, paid_at, stripe_payment_id, stripe_payment_status FROM invoices WHERE id = ?',
             [$invoice['id']]
         );
 

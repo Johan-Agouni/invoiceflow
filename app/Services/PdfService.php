@@ -40,6 +40,7 @@ class PdfService
         // Save to temp file and return path
         $tempPath = sys_get_temp_dir() . '/' . $filename;
         file_put_contents($tempPath, $this->dompdf->output());
+
         return $tempPath;
     }
 
@@ -62,6 +63,7 @@ class PdfService
         // Save to temp file and return path
         $tempPath = sys_get_temp_dir() . '/' . $filename;
         file_put_contents($tempPath, $this->dompdf->output());
+
         return $tempPath;
     }
 
@@ -129,7 +131,7 @@ class PdfService
                                 if (file_exists($logoPath)):
                                     $logoData = base64_encode(file_get_contents($logoPath));
                                     $logoMime = mime_content_type($logoPath);
-                            ?>
+                                    ?>
                                 <img src="data:<?= $logoMime ?>;base64,<?= $logoData ?>" class="logo" alt="Logo">
                             <?php endif; endif; ?>
                             <div class="company-name"><?= htmlspecialchars($settings['company_name'] ?: 'Votre Entreprise') ?></div>

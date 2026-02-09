@@ -138,13 +138,13 @@
                             'paid' => 'bg-green-100 text-green-700',
                             'overdue' => 'bg-red-100 text-red-700',
                         ];
-                        $statusLabels = [
-                            'draft' => 'Brouillon',
-                            'pending' => 'En attente',
-                            'paid' => 'Payée',
-                            'overdue' => 'En retard',
-                        ];
-                        ?>
+                    $statusLabels = [
+                        'draft' => 'Brouillon',
+                        'pending' => 'En attente',
+                        'paid' => 'Payée',
+                        'overdue' => 'En retard',
+                    ];
+                    ?>
                         <span class="px-2 py-1 text-xs font-medium rounded-full <?= $statusClasses[$invoice['status']] ?? 'bg-gray-100' ?>">
                             <?= $statusLabels[$invoice['status']] ?? $invoice['status'] ?>
                         </span>

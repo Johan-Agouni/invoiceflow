@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Api;
 
+use App\Models\Client;
 use App\Models\Quote;
 use App\Models\QuoteItem;
-use App\Models\Client;
 use App\Services\PdfService;
 
 /**
  * Quote API Controller
  *
  * @api
+ *
  * @tag Quotes
  */
 class QuoteApiController extends ApiController
@@ -21,10 +22,7 @@ class QuoteApiController extends ApiController
      * List all quotes
      *
      * @route GET /api/v1/quotes
-     * @param string $status Filter by status
-     * @param int $client_id Filter by client
-     * @param int $page Page number
-     * @param int $per_page Items per page
+     *
      * @response 200 {"success": true, "data": [...], "meta": {...}}
      */
     public function index(): void
@@ -39,7 +37,7 @@ class QuoteApiController extends ApiController
         $quotes = Quote::allForUser($this->userId(), $status);
 
         if ($clientId) {
-            $quotes = array_filter($quotes, fn($q) => $q['client_id'] == $clientId);
+            $quotes = array_filter($quotes, fn ($q) => $q['client_id'] == $clientId);
         }
 
         $total = count($quotes);
@@ -55,7 +53,9 @@ class QuoteApiController extends ApiController
      * Get a single quote
      *
      * @route GET /api/v1/quotes/{id}
+     *
      * @param int $id Quote ID
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function show(int $id): void
@@ -78,7 +78,9 @@ class QuoteApiController extends ApiController
      * Create a new quote
      *
      * @route POST /api/v1/quotes
+     *
      * @body {"client_id": 1, "issue_date": "2024-01-15", "valid_until": "2024-02-15", "items": [...]}
+     *
      * @response 201 {"success": true, "data": {...}}
      */
     public function store(): void
@@ -130,7 +132,9 @@ class QuoteApiController extends ApiController
      * Update a quote
      *
      * @route PUT /api/v1/quotes/{id}
+     *
      * @param int $id Quote ID
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function update(int $id): void
@@ -143,7 +147,7 @@ class QuoteApiController extends ApiController
             $this->notFound('Quote not found');
         }
 
-        if (in_array($quote['status'], ['accepted', 'invoiced'])) {
+        if (in_array($quote['status'], ['accepted', 'invoiced'], true)) {
             $this->error('Cannot modify an accepted or invoiced quote', 403);
         }
 
@@ -176,7 +180,7 @@ class QuoteApiController extends ApiController
             QuoteItem::createMany($id, $items);
         }
 
-        $data = array_filter($data, fn($v) => $v !== null);
+        $data = array_filter($data, fn ($v) => $v !== null);
 
         if (!empty($data)) {
             Quote::update($id, $data);
@@ -193,7 +197,9 @@ class QuoteApiController extends ApiController
      * Delete a quote
      *
      * @route DELETE /api/v1/quotes/{id}
+     *
      * @param int $id Quote ID
+     *
      * @response 200 {"success": true, "message": "Quote deleted"}
      */
     public function destroy(int $id): void
@@ -219,6 +225,7 @@ class QuoteApiController extends ApiController
      * Send quote to client
      *
      * @route POST /api/v1/quotes/{id}/send
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function send(int $id): void
@@ -241,6 +248,7 @@ class QuoteApiController extends ApiController
      * Accept a quote
      *
      * @route POST /api/v1/quotes/{id}/accept
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function accept(int $id): void
@@ -263,6 +271,7 @@ class QuoteApiController extends ApiController
      * Decline a quote
      *
      * @route POST /api/v1/quotes/{id}/decline
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function decline(int $id): void
@@ -285,6 +294,7 @@ class QuoteApiController extends ApiController
      * Convert quote to invoice
      *
      * @route POST /api/v1/quotes/{id}/convert
+     *
      * @response 201 {"success": true, "data": {...}}
      */
     public function convert(int $id): void
@@ -318,6 +328,7 @@ class QuoteApiController extends ApiController
      * Download quote PDF
      *
      * @route GET /api/v1/quotes/{id}/pdf
+     *
      * @response 200 PDF file
      */
     public function pdf(int $id): void
@@ -341,6 +352,7 @@ class QuoteApiController extends ApiController
      * Get quote statistics
      *
      * @route GET /api/v1/quotes/stats
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function stats(): void
@@ -403,7 +415,7 @@ class QuoteApiController extends ApiController
         }
 
         if ($items) {
-            $formatted['items'] = array_map(fn($item) => [
+            $formatted['items'] = array_map(fn ($item) => [
                 'id' => (int) $item['id'],
                 'description' => $item['description'],
                 'quantity' => (float) $item['quantity'],

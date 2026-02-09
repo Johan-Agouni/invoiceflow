@@ -38,6 +38,7 @@ class ClientController extends Controller
 
         if ($data === null) {
             $this->redirect('/clients/create');
+
             return;
         }
 
@@ -98,6 +99,7 @@ class ClientController extends Controller
 
         if ($data === null) {
             $this->redirect("/clients/{$id}/edit");
+
             return;
         }
 
@@ -130,11 +132,13 @@ class ClientController extends Controller
 
         if (empty($companyName)) {
             $this->flash('error', 'Le nom de l\'entreprise est obligatoire.');
+
             return null;
         }
 
         if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->flash('error', 'Adresse email invalide.');
+
             return null;
         }
 

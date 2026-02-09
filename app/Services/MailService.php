@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class MailService
 {
@@ -47,9 +47,11 @@ class MailService
             }
 
             $mail->send();
+
             return true;
         } catch (Exception $e) {
-            error_log("Mail error: " . $mail->ErrorInfo);
+            error_log('Mail error: ' . $mail->ErrorInfo);
+
             return false;
         }
     }
@@ -115,7 +117,7 @@ class MailService
     {
         $resetUrl = ($_ENV['APP_URL'] ?? 'http://localhost:8080') . "/reset-password/{$token}";
 
-        $subject = "Réinitialisation de votre mot de passe - InvoiceFlow";
+        $subject = 'Réinitialisation de votre mot de passe - InvoiceFlow';
 
         $body = "
             <p>Bonjour {$name},</p>
@@ -141,9 +143,9 @@ class MailService
      */
     public function sendWelcome(string $email, string $name): bool
     {
-        $loginUrl = ($_ENV['APP_URL'] ?? 'http://localhost:8080') . "/login";
+        $loginUrl = ($_ENV['APP_URL'] ?? 'http://localhost:8080') . '/login';
 
-        $subject = "Bienvenue sur InvoiceFlow !";
+        $subject = 'Bienvenue sur InvoiceFlow !';
 
         $body = "
             <p>Bonjour {$name},</p>
@@ -178,8 +180,8 @@ class MailService
         $body = "
             <p>Bonjour,</p>
             <p>Nous avons bien reçu votre paiement pour la facture <strong>{$invoice['number']}</strong>.</p>
-            <p><strong>Montant réglé :</strong> " . number_format($invoice['total_amount'], 2, ',', ' ') . " €</p>
-            <p><strong>Date de paiement :</strong> " . date('d/m/Y à H:i') . "</p>
+            <p><strong>Montant réglé :</strong> " . number_format($invoice['total_amount'], 2, ',', ' ') . ' €</p>
+            <p><strong>Date de paiement :</strong> ' . date('d/m/Y à H:i') . "</p>
             <p>Merci pour votre confiance.</p>
             <p>Cordialement,<br>{$settings['company_name']}</p>
         ";

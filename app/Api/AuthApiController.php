@@ -11,6 +11,7 @@ use App\Models\User;
  * Authentication API Controller
  *
  * @api
+ *
  * @tag Authentication
  */
 class AuthApiController extends ApiController
@@ -19,7 +20,9 @@ class AuthApiController extends ApiController
      * Generate API token
      *
      * @route POST /api/v1/auth/token
+     *
      * @body {"email": "user@example.com", "password": "secret"}
+     *
      * @response 200 {"success": true, "data": {"token": "...", "expires_at": null}}
      * @response 401 {"success": false, "message": "Invalid credentials"}
      */
@@ -43,8 +46,8 @@ class AuthApiController extends ApiController
 
         // Store hashed token
         Database::query(
-            "INSERT INTO api_tokens (user_id, name, token, expires_at, created_at)
-             VALUES (?, ?, ?, ?, NOW())",
+            'INSERT INTO api_tokens (user_id, name, token, expires_at, created_at)
+             VALUES (?, ?, ?, ?, NOW())',
             [$user['id'], $tokenName, hash('sha256', $token), $expiresAt]
         );
 
@@ -61,6 +64,7 @@ class AuthApiController extends ApiController
      * Revoke current API token
      *
      * @route DELETE /api/v1/auth/token
+     *
      * @response 200 {"success": true, "message": "Token revoked"}
      */
     public function revokeToken(): void
@@ -72,7 +76,7 @@ class AuthApiController extends ApiController
         }
 
         Database::query(
-            "DELETE FROM api_tokens WHERE token = ?",
+            'DELETE FROM api_tokens WHERE token = ?',
             [hash('sha256', $token)]
         );
 
@@ -83,6 +87,7 @@ class AuthApiController extends ApiController
      * Revoke all API tokens
      *
      * @route DELETE /api/v1/auth/tokens
+     *
      * @response 200 {"success": true, "message": "All tokens revoked"}
      */
     public function revokeAllTokens(): void
@@ -90,7 +95,7 @@ class AuthApiController extends ApiController
         $this->requireAuth();
 
         Database::query(
-            "DELETE FROM api_tokens WHERE user_id = ?",
+            'DELETE FROM api_tokens WHERE user_id = ?',
             [$this->userId()]
         );
 
@@ -101,6 +106,7 @@ class AuthApiController extends ApiController
      * List all API tokens
      *
      * @route GET /api/v1/auth/tokens
+     *
      * @response 200 {"success": true, "data": [...]}
      */
     public function listTokens(): void
@@ -108,12 +114,12 @@ class AuthApiController extends ApiController
         $this->requireAuth();
 
         $tokens = Database::fetchAll(
-            "SELECT id, name, created_at, expires_at, last_used_at
-             FROM api_tokens WHERE user_id = ? ORDER BY created_at DESC",
+            'SELECT id, name, created_at, expires_at, last_used_at
+             FROM api_tokens WHERE user_id = ? ORDER BY created_at DESC',
             [$this->userId()]
         );
 
-        $this->success(array_map(fn($t) => [
+        $this->success(array_map(fn ($t) => [
             'id' => (int) $t['id'],
             'name' => $t['name'],
             'created_at' => $t['created_at'],
@@ -126,6 +132,7 @@ class AuthApiController extends ApiController
      * Get current user info
      *
      * @route GET /api/v1/auth/me
+     *
      * @response 200 {"success": true, "data": {...}}
      */
     public function me(): void

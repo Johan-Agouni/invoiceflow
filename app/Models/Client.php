@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Model;
 use App\Database;
+use App\Model;
 
 class Client extends Model
 {
@@ -14,7 +14,7 @@ class Client extends Model
     public static function allForUser(int $userId): array
     {
         return Database::fetchAll(
-            "SELECT * FROM clients WHERE user_id = ? ORDER BY company_name ASC",
+            'SELECT * FROM clients WHERE user_id = ? ORDER BY company_name ASC',
             [$userId]
         );
     }
@@ -22,7 +22,7 @@ class Client extends Model
     public static function findForUser(int $id, int $userId): ?array
     {
         return Database::fetch(
-            "SELECT * FROM clients WHERE id = ? AND user_id = ?",
+            'SELECT * FROM clients WHERE id = ? AND user_id = ?',
             [$id, $userId]
         );
     }
@@ -30,8 +30,9 @@ class Client extends Model
     public static function search(int $userId, string $query): array
     {
         $like = "%{$query}%";
+
         return Database::fetchAll(
-            "SELECT * FROM clients WHERE user_id = ? AND (company_name LIKE ? OR email LIKE ? OR contact_name LIKE ?) ORDER BY company_name ASC",
+            'SELECT * FROM clients WHERE user_id = ? AND (company_name LIKE ? OR email LIKE ? OR contact_name LIKE ?) ORDER BY company_name ASC',
             [$userId, $like, $like, $like]
         );
     }

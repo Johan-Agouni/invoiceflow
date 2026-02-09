@@ -13,9 +13,13 @@ namespace App\Services;
 class TranslationService
 {
     private static ?self $instance = null;
+
     private array $translations = [];
+
     private string $locale = 'fr';
+
     private string $fallbackLocale = 'fr';
+
     private array $supportedLocales = ['fr', 'en'];
 
     private function __construct()
@@ -31,6 +35,7 @@ class TranslationService
         if (self::$instance === null) {
             self::$instance = new self();
         }
+
         return self::$instance;
     }
 
@@ -39,10 +44,11 @@ class TranslationService
      */
     public function setLocale(string $locale): self
     {
-        if (in_array($locale, $this->supportedLocales)) {
+        if (in_array($locale, $this->supportedLocales, true)) {
             $this->locale = $locale;
             $this->loadLocale($locale);
         }
+
         return $this;
     }
 
@@ -80,11 +86,10 @@ class TranslationService
      * @param string $key Dot notation key (e.g., 'invoices.title')
      * @param array $replace Placeholders to replace (e.g., [':name' => 'John'])
      * @param string|null $locale Override locale
-     * @return string
      */
     public function get(string $key, array $replace = [], ?string $locale = null): string
     {
-        $locale = $locale ?? $this->locale;
+        $locale ??= $this->locale;
 
         // Ensure locale is loaded
         if (!isset($this->translations[$locale])) {
@@ -120,7 +125,7 @@ class TranslationService
      */
     public function has(string $key, ?string $locale = null): bool
     {
-        $locale = $locale ?? $this->locale;
+        $locale ??= $this->locale;
 
         if (!isset($this->translations[$locale])) {
             $this->loadLocale($locale);
@@ -134,7 +139,7 @@ class TranslationService
      */
     public function all(?string $locale = null): array
     {
-        $locale = $locale ?? $this->locale;
+        $locale ??= $this->locale;
 
         if (!isset($this->translations[$locale])) {
             $this->loadLocale($locale);
@@ -182,7 +187,7 @@ class TranslationService
     public function detectLocale(): string
     {
         // Check session
-        if (isset($_SESSION['locale']) && in_array($_SESSION['locale'], $this->supportedLocales)) {
+        if (isset($_SESSION['locale']) && in_array($_SESSION['locale'], $this->supportedLocales, true)) {
             return $_SESSION['locale'];
         }
 
@@ -200,7 +205,7 @@ class TranslationService
      */
     public function saveToSession(string $locale): void
     {
-        if (in_array($locale, $this->supportedLocales)) {
+        if (in_array($locale, $this->supportedLocales, true)) {
             $_SESSION['locale'] = $locale;
         }
     }
@@ -211,13 +216,13 @@ class TranslationService
  *
  * @param string $key Translation key
  * @param array $replace Placeholders to replace
- * @return string
  */
 function __(?string $key = null, array $replace = []): string
 {
     if ($key === null) {
         return '';
     }
+
     return TranslationService::getInstance()->get($key, $replace);
 }
 

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
 use App\Services\StripeService;
 use ReflectionClass;
+use Tests\TestCase;
 
 /**
  * Stripe Service Tests

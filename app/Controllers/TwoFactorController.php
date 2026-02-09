@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Controller;
-use App\Services\TwoFactorAuthService;
 use App\Models\User;
+use App\Services\TwoFactorAuthService;
 
 /**
  * Contrôleur pour la gestion de l'authentification à deux facteurs

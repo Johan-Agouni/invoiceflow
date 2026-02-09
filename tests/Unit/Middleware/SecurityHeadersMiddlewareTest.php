@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Middleware;
 
-use PHPUnit\Framework\TestCase;
 use App\Middleware\SecurityHeadersMiddleware;
+use PHPUnit\Framework\TestCase;
 
 class SecurityHeadersMiddlewareTest extends TestCase
 {
@@ -19,6 +19,7 @@ class SecurityHeadersMiddlewareTest extends TestCase
 
     /**
      * @runInSeparateProcess
+     *
      * @preserveGlobalState disabled
      */
     public function testHandleSetsSecurityHeaders(): void

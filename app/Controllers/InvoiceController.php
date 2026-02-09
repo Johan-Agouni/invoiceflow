@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Controller;
+use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use App\Models\Client;
 use App\Models\Settings;
-use App\Services\PdfService;
 use App\Services\MailService;
+use App\Services\PdfService;
 
 class InvoiceController extends Controller
 {

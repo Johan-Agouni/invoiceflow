@@ -7,6 +7,7 @@ namespace App;
 class Router
 {
     private array $routes = [];
+
     private array $middleware = [];
 
     public function get(string $path, array $handler, array $middleware = []): self
@@ -77,6 +78,7 @@ class Router
                 [$controllerClass, $action] = $route['handler'];
                 $controller = new $controllerClass();
                 $controller->$action(...array_values($params));
+
                 return;
             }
         }

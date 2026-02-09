@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Model;
 use App\Database;
+use App\Model;
 
 class Invoice extends Model
 {
@@ -19,18 +19,18 @@ class Invoice extends Model
 
     public static function allForUser(int $userId, ?string $status = null): array
     {
-        $sql = "SELECT i.*, c.company_name as client_name, c.email as client_email
+        $sql = 'SELECT i.*, c.company_name as client_name, c.email as client_email
                 FROM invoices i
                 JOIN clients c ON c.id = i.client_id
-                WHERE i.user_id = ?";
+                WHERE i.user_id = ?';
         $params = [$userId];
 
         if ($status) {
-            $sql .= " AND i.status = ?";
+            $sql .= ' AND i.status = ?';
             $params[] = $status;
         }
 
-        $sql .= " ORDER BY i.created_at DESC";
+        $sql .= ' ORDER BY i.created_at DESC';
 
         return Database::fetchAll($sql, $params);
     }
@@ -38,12 +38,12 @@ class Invoice extends Model
     public static function findForUser(int $id, int $userId): ?array
     {
         return Database::fetch(
-            "SELECT i.*, c.company_name, c.email as client_email, c.address as client_address,
+            'SELECT i.*, c.company_name, c.email as client_email, c.address as client_address,
                     c.postal_code as client_postal_code, c.city as client_city, c.country as client_country,
                     c.vat_number as client_vat_number
              FROM invoices i
              JOIN clients c ON c.id = i.client_id
-             WHERE i.id = ? AND i.user_id = ?",
+             WHERE i.id = ? AND i.user_id = ?',
             [$id, $userId]
         );
     }
@@ -54,11 +54,12 @@ class Invoice extends Model
         $prefix = 'FAC';
 
         $count = Database::fetch(
-            "SELECT COUNT(*) as count FROM invoices WHERE user_id = ? AND YEAR(created_at) = ?",
+            'SELECT COUNT(*) as count FROM invoices WHERE user_id = ? AND YEAR(created_at) = ?',
             [$userId, $year]
         );
 
         $number = ((int) $count['count']) + 1;
+
         return sprintf('%s-%s-%04d', $prefix, $year, $number);
     }
 

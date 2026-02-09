@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Controller;
+use App\Models\Client;
 use App\Models\Quote;
 use App\Models\QuoteItem;
-use App\Models\Client;
 use App\Models\Settings;
-use App\Services\PdfService;
 use App\Services\MailService;
+use App\Services\PdfService;
 
 class QuoteController extends Controller
 {
@@ -111,7 +111,7 @@ class QuoteController extends Controller
     {
         $quote = Quote::findForUser((int) $id, $this->userId());
 
-        if (!$quote || in_array($quote['status'], [Quote::STATUS_ACCEPTED, Quote::STATUS_INVOICED])) {
+        if (!$quote || in_array($quote['status'], [Quote::STATUS_ACCEPTED, Quote::STATUS_INVOICED], true)) {
             $this->flash('error', 'Devis non modifiable.');
             $this->redirect('/quotes');
         }
@@ -139,7 +139,7 @@ class QuoteController extends Controller
 
         $quote = Quote::findForUser((int) $id, $this->userId());
 
-        if (!$quote || in_array($quote['status'], [Quote::STATUS_ACCEPTED, Quote::STATUS_INVOICED])) {
+        if (!$quote || in_array($quote['status'], [Quote::STATUS_ACCEPTED, Quote::STATUS_INVOICED], true)) {
             $this->flash('error', 'Devis non modifiable.');
             $this->redirect('/quotes');
         }

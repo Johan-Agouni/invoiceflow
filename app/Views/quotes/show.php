@@ -46,7 +46,7 @@ $statusLabels = [
                 </button>
             </form>
             <?php endif; ?>
-            <?php if (!in_array($quote['status'], ['accepted', 'invoiced'])): ?>
+            <?php if (!in_array($quote['status'], ['accepted', 'invoiced'], true)): ?>
             <a href="/quotes/<?= $quote['id'] ?>/edit" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
                 Modifier
             </a>
@@ -152,7 +152,7 @@ $statusLabels = [
             </div>
         </div>
 
-        <?php if (!in_array($quote['status'], ['invoiced'])): ?>
+        <?php if (!in_array($quote['status'], ['invoiced'], true)): ?>
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-4">Actions</h3>
             <div class="space-y-3">
@@ -185,7 +185,7 @@ $statusLabels = [
                 </form>
                 <?php endif; ?>
 
-                <?php if (!in_array($quote['status'], ['accepted', 'invoiced'])): ?>
+                <?php if (!in_array($quote['status'], ['accepted', 'invoiced'], true)): ?>
                 <a href="/quotes/<?= $quote['id'] ?>/edit" class="block w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition text-center">
                     Modifier
                 </a>

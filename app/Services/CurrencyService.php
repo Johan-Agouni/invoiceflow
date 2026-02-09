@@ -24,7 +24,7 @@ class CurrencyService
     public function getActiveCurrencies(): array
     {
         return Database::fetchAll(
-            "SELECT * FROM currencies WHERE is_active = 1 ORDER BY code"
+            'SELECT * FROM currencies WHERE is_active = 1 ORDER BY code'
         );
     }
 
@@ -34,7 +34,7 @@ class CurrencyService
     public function getCurrency(string $code): ?array
     {
         return Database::fetch(
-            "SELECT * FROM currencies WHERE code = ?",
+            'SELECT * FROM currencies WHERE code = ?',
             [strtoupper($code)]
         );
     }
@@ -51,7 +51,7 @@ class CurrencyService
             return 1.0;
         }
 
-        $date = $date ?? date('Y-m-d');
+        $date ??= date('Y-m-d');
 
         // Chercher le taux direct
         $rate = $this->findRate($fromCurrency, $toCurrency, $date);
@@ -109,7 +109,7 @@ class CurrencyService
         $formatted = number_format($amount, $decimals, ',', ' ');
 
         // Position du symbole selon la devise
-        $symbolAfter = in_array($currencyCode, ['EUR', 'CHF', 'MAD', 'TND', 'XOF']);
+        $symbolAfter = in_array($currencyCode, ['EUR', 'CHF', 'MAD', 'TND', 'XOF'], true);
 
         if ($symbolAfter) {
             return $formatted . ' ' . $currency['symbol'];
@@ -162,9 +162,9 @@ class CurrencyService
         ?string $source = null
     ): bool {
         $result = Database::query(
-            "INSERT INTO exchange_rates (base_currency, target_currency, rate, date, source)
+            'INSERT INTO exchange_rates (base_currency, target_currency, rate, date, source)
              VALUES (?, ?, ?, ?, ?)
-             ON DUPLICATE KEY UPDATE rate = VALUES(rate), source = VALUES(source)",
+             ON DUPLICATE KEY UPDATE rate = VALUES(rate), source = VALUES(source)',
             [
                 strtoupper($baseCurrency),
                 strtoupper($targetCurrency),
@@ -185,9 +185,9 @@ class CurrencyService
         $dateFrom = date('Y-m-d', strtotime("-{$days} days"));
 
         return Database::fetchAll(
-            "SELECT date, rate FROM exchange_rates
+            'SELECT date, rate FROM exchange_rates
              WHERE base_currency = ? AND target_currency = ? AND date >= ?
-             ORDER BY date ASC",
+             ORDER BY date ASC',
             [strtoupper($fromCurrency), strtoupper($toCurrency), $dateFrom]
         );
     }
@@ -198,7 +198,7 @@ class CurrencyService
     public function addCurrency(string $code, string $name, string $symbol, int $decimalPlaces = 2): bool
     {
         $result = Database::query(
-            "INSERT IGNORE INTO currencies (code, name, symbol, decimal_places) VALUES (?, ?, ?, ?)",
+            'INSERT IGNORE INTO currencies (code, name, symbol, decimal_places) VALUES (?, ?, ?, ?)',
             [strtoupper($code), $name, $symbol, $decimalPlaces]
         );
 
@@ -211,7 +211,7 @@ class CurrencyService
     public function toggleCurrency(string $code, bool $active): bool
     {
         $result = Database::query(
-            "UPDATE currencies SET is_active = ? WHERE code = ?",
+            'UPDATE currencies SET is_active = ? WHERE code = ?',
             [$active ? 1 : 0, strtoupper($code)]
         );
 
@@ -235,8 +235,8 @@ class CurrencyService
     {
         // Chercher le taux exact pour la date
         $rate = Database::fetch(
-            "SELECT rate FROM exchange_rates
-             WHERE base_currency = ? AND target_currency = ? AND date = ?",
+            'SELECT rate FROM exchange_rates
+             WHERE base_currency = ? AND target_currency = ? AND date = ?',
             [$baseCurrency, $targetCurrency, $date]
         );
 
@@ -246,9 +246,9 @@ class CurrencyService
 
         // Chercher le taux le plus récent avant la date
         $rate = Database::fetch(
-            "SELECT rate FROM exchange_rates
+            'SELECT rate FROM exchange_rates
              WHERE base_currency = ? AND target_currency = ? AND date <= ?
-             ORDER BY date DESC LIMIT 1",
+             ORDER BY date DESC LIMIT 1',
             [$baseCurrency, $targetCurrency, $date]
         );
 

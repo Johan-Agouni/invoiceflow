@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
 use App\Services\RecurringInvoiceService;
+use Tests\TestCase;
 
 class RecurringInvoiceServiceTest extends TestCase
 {

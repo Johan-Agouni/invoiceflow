@@ -12,11 +12,11 @@ declare(strict_types=1);
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // Load environment variables for testing
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..', '.env.testing');
-$dotenv->safeLoad();
-
-// If no .env.testing, use defaults
-if (empty($_ENV['DB_DATABASE'])) {
+if (file_exists(__DIR__ . '/../.env.testing')) {
+    $dotenv = Dotenv\Dotenv::createMutable(__DIR__ . '/..', '.env.testing');
+    $dotenv->load();
+} else {
+    // Fallback defaults when no .env.testing exists
     $_ENV['DB_HOST'] = 'localhost';
     $_ENV['DB_PORT'] = '3306';
     $_ENV['DB_DATABASE'] = 'invoiceflow_test';

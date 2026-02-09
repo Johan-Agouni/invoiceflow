@@ -320,6 +320,7 @@ class FecExportService
     {
         // Supprime les caractères de contrôle et tabulations
         $value = preg_replace('/[\x00-\x1F\x7F\t]/', ' ', $value);
+
         // Limite la longueur
         return mb_substr(trim($value), 0, 100);
     }
@@ -347,7 +348,7 @@ class FecExportService
     private function loadSettings(): array
     {
         return Database::fetch(
-            "SELECT * FROM settings WHERE user_id = ?",
+            'SELECT * FROM settings WHERE user_id = ?',
             [$this->userId]
         ) ?: [];
     }

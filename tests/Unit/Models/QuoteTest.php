@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models;
 
-use Tests\TestCase;
+use App\Models\Invoice;
 use App\Models\Quote;
 use App\Models\QuoteItem;
-use App\Models\Invoice;
+use Tests\TestCase;
 
 /**
  * Quote Model Tests
@@ -18,6 +18,7 @@ use App\Models\Invoice;
 class QuoteTest extends TestCase
 {
     private array $user;
+
     private array $client;
 
     protected function setUp(): void

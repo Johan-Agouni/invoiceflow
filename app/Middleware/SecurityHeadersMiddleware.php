@@ -84,7 +84,7 @@ class SecurityHeadersMiddleware
             "base-uri 'self'",
 
             // Upgrade des requêtes HTTP vers HTTPS
-            "upgrade-insecure-requests",
+            'upgrade-insecure-requests',
         ];
 
         return implode('; ', $directives);

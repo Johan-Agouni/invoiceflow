@@ -19,8 +19,11 @@ use App\Models\Settings;
 class StripeService
 {
     private string $secretKey;
+
     private string $publishableKey;
+
     private string $webhookSecret;
+
     private string $apiVersion = '2023-10-16';
 
     public function __construct()
@@ -83,7 +86,7 @@ class StripeService
 
         // Store session ID in database
         Database::query(
-            "UPDATE invoices SET stripe_session_id = ? WHERE id = ?",
+            'UPDATE invoices SET stripe_session_id = ? WHERE id = ?',
             [$response['id'], $invoiceId]
         );
 
@@ -118,7 +121,7 @@ class StripeService
 
         // Store payment intent ID
         Database::query(
-            "UPDATE invoices SET stripe_payment_intent_id = ? WHERE id = ?",
+            'UPDATE invoices SET stripe_payment_intent_id = ? WHERE id = ?',
             [$response['id'], $invoiceId]
         );
 
@@ -240,8 +243,8 @@ class StripeService
     public function getPaymentStatus(int $invoiceId): ?array
     {
         $invoice = Database::fetch(
-            "SELECT stripe_session_id, stripe_payment_intent_id, stripe_payment_id, stripe_payment_status
-             FROM invoices WHERE id = ?",
+            'SELECT stripe_session_id, stripe_payment_intent_id, stripe_payment_id, stripe_payment_status
+             FROM invoices WHERE id = ?',
             [$invoiceId]
         );
 
@@ -266,7 +269,7 @@ class StripeService
     public function refund(int $invoiceId, ?float $amount = null): array
     {
         $invoice = Database::fetch(
-            "SELECT stripe_payment_id, total_amount FROM invoices WHERE id = ?",
+            'SELECT stripe_payment_id, total_amount FROM invoices WHERE id = ?',
             [$invoiceId]
         );
 
@@ -345,7 +348,7 @@ class StripeService
      */
     private function request(string $method, string $endpoint, array $data = []): array
     {
-        $url = "https://api.stripe.com/v1" . $endpoint;
+        $url = 'https://api.stripe.com/v1' . $endpoint;
 
         $ch = curl_init();
 
@@ -381,6 +384,7 @@ class StripeService
 
         if ($httpCode >= 400) {
             $errorMessage = $result['error']['message'] ?? 'Unknown Stripe error';
+
             throw new \Exception("Stripe API Error: {$errorMessage}");
         }
 

@@ -57,6 +57,7 @@ class Controller
     {
         $flash = $_SESSION['flash'] ?? [];
         unset($_SESSION['flash']);
+
         return $flash;
     }
 
@@ -65,12 +66,14 @@ class Controller
         if (!isset($_SESSION['csrf_token'])) {
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         }
+
         return $_SESSION['csrf_token'];
     }
 
     protected function validateCsrf(): bool
     {
         $token = $this->input('_token');
+
         return $token && hash_equals($_SESSION['csrf_token'] ?? '', $token);
     }
 

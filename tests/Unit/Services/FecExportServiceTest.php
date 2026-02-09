@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
-use App\Services\FecExportService;
 use App\Database;
+use App\Services\FecExportService;
+use Tests\TestCase;
 
 class FecExportServiceTest extends TestCase
 {
@@ -21,7 +21,7 @@ class FecExportServiceTest extends TestCase
 
         // Créer les settings avec SIRET
         Database::query(
-            "INSERT INTO settings (user_id, company_name, company_siret) VALUES (?, ?, ?)",
+            'INSERT INTO settings (user_id, company_name, company_siret) VALUES (?, ?, ?)',
             [$this->userId, 'Test Company', '12345678901234']
         );
     }
@@ -30,7 +30,7 @@ class FecExportServiceTest extends TestCase
     {
         $user = $this->createUser();
         Database::query(
-            "INSERT INTO settings (user_id, company_name) VALUES (?, ?)",
+            'INSERT INTO settings (user_id, company_name) VALUES (?, ?)',
             [$user['id'], 'No SIRET Company']
         );
 

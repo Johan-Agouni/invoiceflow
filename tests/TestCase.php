@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase as BaseTestCase;
 use App\Database;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
 /**
  * Base Test Case
@@ -188,7 +188,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function assertDatabaseHas(string $table, array $conditions): void
     {
-        $where = implode(' AND ', array_map(fn($k) => "{$k} = ?", array_keys($conditions)));
+        $where = implode(' AND ', array_map(fn ($k) => "{$k} = ?", array_keys($conditions)));
         $result = Database::fetch("SELECT * FROM {$table} WHERE {$where}", array_values($conditions));
 
         $this->assertNotNull($result, "Failed asserting that table [{$table}] has matching record");
@@ -199,7 +199,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function assertDatabaseMissing(string $table, array $conditions): void
     {
-        $where = implode(' AND ', array_map(fn($k) => "{$k} = ?", array_keys($conditions)));
+        $where = implode(' AND ', array_map(fn ($k) => "{$k} = ?", array_keys($conditions)));
         $result = Database::fetch("SELECT * FROM {$table} WHERE {$where}", array_values($conditions));
 
         $this->assertNull($result, "Failed asserting that table [{$table}] is missing record");

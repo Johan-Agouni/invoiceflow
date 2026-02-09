@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
+use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
-use App\Models\Client;
-use App\Models\Settings;
+use Tests\TestCase;
 
 /**
  * Invoice Workflow Feature Tests
@@ -21,6 +20,7 @@ use App\Models\Settings;
 class InvoiceWorkflowTest extends TestCase
 {
     private array $user;
+
     private array $client;
 
     protected function setUp(): void

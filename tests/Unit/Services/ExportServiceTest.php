@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
-use App\Services\ExportService;
 use App\Models\InvoiceItem;
+use App\Services\ExportService;
 use ReflectionClass;
+use Tests\TestCase;
 
 /**
  * Export Service Tests
@@ -17,7 +17,9 @@ use ReflectionClass;
 class ExportServiceTest extends TestCase
 {
     private ExportService $exportService;
+
     private array $user;
+
     private array $client;
 
     protected function setUp(): void

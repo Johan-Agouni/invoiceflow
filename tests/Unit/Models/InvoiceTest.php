@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models;
 
-use Tests\TestCase;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use Tests\TestCase;
 
 /**
  * Invoice Model Tests
@@ -17,6 +17,7 @@ use App\Models\InvoiceItem;
 class InvoiceTest extends TestCase
 {
     private array $user;
+
     private array $client;
 
     protected function setUp(): void

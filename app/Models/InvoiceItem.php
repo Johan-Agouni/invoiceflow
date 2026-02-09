@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Model;
 use App\Database;
+use App\Model;
 
 class InvoiceItem extends Model
 {
@@ -14,7 +14,7 @@ class InvoiceItem extends Model
     public static function getForInvoice(int $invoiceId): array
     {
         return Database::fetchAll(
-            "SELECT * FROM invoice_items WHERE invoice_id = ? ORDER BY id ASC",
+            'SELECT * FROM invoice_items WHERE invoice_id = ? ORDER BY id ASC',
             [$invoiceId]
         );
     }

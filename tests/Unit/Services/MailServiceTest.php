@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
 use App\Services\MailService;
 use ReflectionClass;
+use Tests\TestCase;
 
 /**
  * Mail Service Tests

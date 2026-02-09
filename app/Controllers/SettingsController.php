@@ -180,7 +180,7 @@ class SettingsController extends Controller
         $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
         $maxSize = 2 * 1024 * 1024; // 2MB
 
-        if (!in_array($file['type'], $allowedTypes)) {
+        if (!in_array($file['type'], $allowedTypes, true)) {
             $this->flash('error', 'Format non supporté. Utilisez JPG, PNG ou GIF.');
             $this->redirect('/settings');
         }
@@ -198,7 +198,7 @@ class SettingsController extends Controller
 
         // Create uploads directory if it doesn't exist
         if (!is_dir($uploadsDir)) {
-            if (!@mkdir($uploadsDir, 0777, true)) {
+            if (!@mkdir($uploadsDir, 0o777, true)) {
                 $this->flash('error', 'Impossible de créer le dossier uploads.');
                 $this->redirect('/settings');
             }

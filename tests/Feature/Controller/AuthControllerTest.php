@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controller;
 
-use Tests\TestCase;
-use App\Models\User;
 use App\Models\Settings;
+use App\Models\User;
+use Tests\TestCase;
 
 /**
  * Auth Controller Feature Tests

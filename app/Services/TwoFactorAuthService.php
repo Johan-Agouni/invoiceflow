@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Database;
-use PragmaRX\Google2FA\Google2FA;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use PragmaRX\Google2FA\Google2FA;
 
 /**
  * Service de gestion de l'authentification à deux facteurs (2FA)
@@ -78,12 +78,12 @@ class TwoFactorAuthService
         $recoveryCodes = $this->generateRecoveryCodes();
 
         $result = Database::query(
-            "UPDATE users SET
+            'UPDATE users SET
                 two_factor_secret = ?,
                 two_factor_enabled = 1,
                 two_factor_confirmed_at = NOW(),
                 two_factor_recovery_codes = ?
-             WHERE id = ?",
+             WHERE id = ?',
             [
                 $this->encryptSecret($secret),
                 json_encode($recoveryCodes),
@@ -101,17 +101,17 @@ class TwoFactorAuthService
     {
         // Supprimer aussi les appareils de confiance
         Database::query(
-            "DELETE FROM two_factor_trusted_devices WHERE user_id = ?",
+            'DELETE FROM two_factor_trusted_devices WHERE user_id = ?',
             [$userId]
         );
 
         $result = Database::query(
-            "UPDATE users SET
+            'UPDATE users SET
                 two_factor_secret = NULL,
                 two_factor_enabled = 0,
                 two_factor_confirmed_at = NULL,
                 two_factor_recovery_codes = NULL
-             WHERE id = ?",
+             WHERE id = ?',
             [$userId]
         );
 
@@ -124,7 +124,7 @@ class TwoFactorAuthService
     public function isEnabled(int $userId): bool
     {
         $user = Database::fetch(
-            "SELECT two_factor_enabled FROM users WHERE id = ?",
+            'SELECT two_factor_enabled FROM users WHERE id = ?',
             [$userId]
         );
 
@@ -137,7 +137,7 @@ class TwoFactorAuthService
     public function getSecret(int $userId): ?string
     {
         $user = Database::fetch(
-            "SELECT two_factor_secret FROM users WHERE id = ?",
+            'SELECT two_factor_secret FROM users WHERE id = ?',
             [$userId]
         );
 
@@ -174,7 +174,7 @@ class TwoFactorAuthService
     public function useRecoveryCode(int $userId, string $code): bool
     {
         $user = Database::fetch(
-            "SELECT two_factor_recovery_codes FROM users WHERE id = ?",
+            'SELECT two_factor_recovery_codes FROM users WHERE id = ?',
             [$userId]
         );
 
@@ -202,7 +202,7 @@ class TwoFactorAuthService
 
         // Met à jour les codes restants
         Database::query(
-            "UPDATE users SET two_factor_recovery_codes = ? WHERE id = ?",
+            'UPDATE users SET two_factor_recovery_codes = ? WHERE id = ?',
             [json_encode($codes), $userId]
         );
 
@@ -215,7 +215,7 @@ class TwoFactorAuthService
     public function getRecoveryCodes(int $userId): array
     {
         $user = Database::fetch(
-            "SELECT two_factor_recovery_codes FROM users WHERE id = ?",
+            'SELECT two_factor_recovery_codes FROM users WHERE id = ?',
             [$userId]
         );
 
@@ -234,7 +234,7 @@ class TwoFactorAuthService
         $codes = $this->generateRecoveryCodes();
 
         Database::query(
-            "UPDATE users SET two_factor_recovery_codes = ? WHERE id = ?",
+            'UPDATE users SET two_factor_recovery_codes = ? WHERE id = ?',
             [json_encode($codes), $userId]
         );
 
@@ -250,9 +250,9 @@ class TwoFactorAuthService
         $expiresAt = date('Y-m-d H:i:s', strtotime("+{$this->trustedDeviceDays} days"));
 
         Database::query(
-            "INSERT INTO two_factor_trusted_devices
+            'INSERT INTO two_factor_trusted_devices
                 (user_id, device_token, device_name, ip_address, user_agent, expires_at)
-             VALUES (?, ?, ?, ?, ?, ?)",
+             VALUES (?, ?, ?, ?, ?, ?)',
             [
                 $userId,
                 hash('sha256', $token),
@@ -274,15 +274,15 @@ class TwoFactorAuthService
         $hashedToken = hash('sha256', $token);
 
         $device = Database::fetch(
-            "SELECT id FROM two_factor_trusted_devices
-             WHERE user_id = ? AND device_token = ? AND expires_at > NOW()",
+            'SELECT id FROM two_factor_trusted_devices
+             WHERE user_id = ? AND device_token = ? AND expires_at > NOW()',
             [$userId, $hashedToken]
         );
 
         if ($device) {
             // Met à jour le last_used_at
             Database::query(
-                "UPDATE two_factor_trusted_devices SET last_used_at = NOW() WHERE id = ?",
+                'UPDATE two_factor_trusted_devices SET last_used_at = NOW() WHERE id = ?',
                 [$device['id']]
             );
 
@@ -298,7 +298,7 @@ class TwoFactorAuthService
     public function revokeTrustedDevice(int $userId, int $deviceId): bool
     {
         $result = Database::query(
-            "DELETE FROM two_factor_trusted_devices WHERE id = ? AND user_id = ?",
+            'DELETE FROM two_factor_trusted_devices WHERE id = ? AND user_id = ?',
             [$deviceId, $userId]
         );
 
@@ -311,7 +311,7 @@ class TwoFactorAuthService
     public function revokeAllTrustedDevices(int $userId): int
     {
         $result = Database::query(
-            "DELETE FROM two_factor_trusted_devices WHERE user_id = ?",
+            'DELETE FROM two_factor_trusted_devices WHERE user_id = ?',
             [$userId]
         );
 
@@ -324,10 +324,10 @@ class TwoFactorAuthService
     public function getTrustedDevices(int $userId): array
     {
         return Database::fetchAll(
-            "SELECT id, device_name, ip_address, last_used_at, created_at, expires_at
+            'SELECT id, device_name, ip_address, last_used_at, created_at, expires_at
              FROM two_factor_trusted_devices
              WHERE user_id = ? AND expires_at > NOW()
-             ORDER BY last_used_at DESC",
+             ORDER BY last_used_at DESC',
             [$userId]
         );
     }
@@ -338,7 +338,7 @@ class TwoFactorAuthService
     public function cleanupExpiredDevices(): int
     {
         $result = Database::query(
-            "DELETE FROM two_factor_trusted_devices WHERE expires_at < NOW()"
+            'DELETE FROM two_factor_trusted_devices WHERE expires_at < NOW()'
         );
 
         return $result->rowCount();
@@ -362,7 +362,7 @@ class TwoFactorAuthService
     private function decryptSecret(string $encrypted): string
     {
         $key = $this->getEncryptionKey();
-        $data = base64_decode($encrypted);
+        $data = base64_decode($encrypted, true);
         $iv = substr($data, 0, 16);
         $ciphertext = substr($data, 16);
 

@@ -6,8 +6,6 @@ namespace App\Services;
 
 use App\Database;
 use App\Models\Invoice;
-use App\Services\PdfService;
-use App\Services\MailService;
 
 /**
  * Service de gestion des factures récurrentes
@@ -44,11 +42,11 @@ class RecurringInvoiceService
         $totals = $this->calculateTotals($items);
 
         $recurringId = (int) Database::query(
-            "INSERT INTO recurring_invoices
+            'INSERT INTO recurring_invoices
                 (user_id, client_id, name, frequency, day_of_month, day_of_week,
                  start_date, end_date, next_invoice_date, subtotal, vat_amount,
                  total_amount, notes, auto_send, status)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
                 $data['user_id'],
                 $data['client_id'],
@@ -83,7 +81,7 @@ class RecurringInvoiceService
         $totals = $this->calculateTotals($items);
 
         $result = Database::query(
-            "UPDATE recurring_invoices SET
+            'UPDATE recurring_invoices SET
                 client_id = ?,
                 name = ?,
                 frequency = ?,
@@ -95,7 +93,7 @@ class RecurringInvoiceService
                 total_amount = ?,
                 notes = ?,
                 auto_send = ?
-             WHERE id = ?",
+             WHERE id = ?',
             [
                 $data['client_id'],
                 $data['name'],
@@ -114,7 +112,7 @@ class RecurringInvoiceService
 
         if ($result->rowCount() > 0) {
             // Supprimer les anciens items et recréer
-            Database::query("DELETE FROM recurring_invoice_items WHERE recurring_invoice_id = ?", [$id]);
+            Database::query('DELETE FROM recurring_invoice_items WHERE recurring_invoice_id = ?', [$id]);
             $this->saveItems($id, $items);
 
             return true;
@@ -132,12 +130,12 @@ class RecurringInvoiceService
         $generated = [];
 
         $dueRecurring = Database::fetchAll(
-            "SELECT r.*, c.company_name as client_name
+            'SELECT r.*, c.company_name as client_name
              FROM recurring_invoices r
              JOIN clients c ON c.id = r.client_id
              WHERE r.status = ?
                AND r.next_invoice_date <= ?
-               AND (r.end_date IS NULL OR r.end_date >= ?)",
+               AND (r.end_date IS NULL OR r.end_date >= ?)',
             [self::STATUS_ACTIVE, $today, $today]
         );
 
@@ -199,9 +197,9 @@ class RecurringInvoiceService
             // Copier les items
             foreach ($items as $item) {
                 Database::query(
-                    "INSERT INTO invoice_items
+                    'INSERT INTO invoice_items
                         (invoice_id, description, quantity, unit_price, vat_rate, total)
-                     VALUES (?, ?, ?, ?, ?, ?)",
+                     VALUES (?, ?, ?, ?, ?, ?)',
                     [
                         $invoiceId,
                         $item['description'],
@@ -222,19 +220,19 @@ class RecurringInvoiceService
             );
 
             Database::query(
-                "UPDATE recurring_invoices SET
+                'UPDATE recurring_invoices SET
                     last_invoice_date = ?,
                     last_invoice_id = ?,
                     next_invoice_date = ?,
                     invoices_generated = invoices_generated + 1
-                 WHERE id = ?",
+                 WHERE id = ?',
                 [$issueDate, $invoiceId, $nextDate, $recurring['id']]
             );
 
             // Vérifier si la récurrence est terminée
             if ($recurring['end_date'] && $nextDate > $recurring['end_date']) {
                 Database::query(
-                    "UPDATE recurring_invoices SET status = ? WHERE id = ?",
+                    'UPDATE recurring_invoices SET status = ? WHERE id = ?',
                     [self::STATUS_COMPLETED, $recurring['id']]
                 );
             }
@@ -298,18 +296,18 @@ class RecurringInvoiceService
      */
     public function getAllForUser(int $userId, ?string $status = null): array
     {
-        $sql = "SELECT r.*, c.company_name as client_name
+        $sql = 'SELECT r.*, c.company_name as client_name
                 FROM recurring_invoices r
                 JOIN clients c ON c.id = r.client_id
-                WHERE r.user_id = ?";
+                WHERE r.user_id = ?';
         $params = [$userId];
 
         if ($status) {
-            $sql .= " AND r.status = ?";
+            $sql .= ' AND r.status = ?';
             $params[] = $status;
         }
 
-        $sql .= " ORDER BY r.next_invoice_date ASC";
+        $sql .= ' ORDER BY r.next_invoice_date ASC';
 
         return Database::fetchAll($sql, $params);
     }
@@ -320,10 +318,10 @@ class RecurringInvoiceService
     public function find(int $id, int $userId): ?array
     {
         return Database::fetch(
-            "SELECT r.*, c.company_name as client_name
+            'SELECT r.*, c.company_name as client_name
              FROM recurring_invoices r
              JOIN clients c ON c.id = r.client_id
-             WHERE r.id = ? AND r.user_id = ?",
+             WHERE r.id = ? AND r.user_id = ?',
             [$id, $userId]
         );
     }
@@ -334,7 +332,7 @@ class RecurringInvoiceService
     public function pause(int $id): bool
     {
         $result = Database::query(
-            "UPDATE recurring_invoices SET status = ? WHERE id = ? AND status = ?",
+            'UPDATE recurring_invoices SET status = ? WHERE id = ? AND status = ?',
             [self::STATUS_PAUSED, $id, self::STATUS_ACTIVE]
         );
 
@@ -347,7 +345,7 @@ class RecurringInvoiceService
     public function resume(int $id): bool
     {
         // Recalculer la prochaine date si elle est passée
-        $recurring = Database::fetch("SELECT * FROM recurring_invoices WHERE id = ?", [$id]);
+        $recurring = Database::fetch('SELECT * FROM recurring_invoices WHERE id = ?', [$id]);
 
         if (!$recurring || $recurring['status'] !== self::STATUS_PAUSED) {
             return false;
@@ -365,7 +363,7 @@ class RecurringInvoiceService
         }
 
         $result = Database::query(
-            "UPDATE recurring_invoices SET status = ?, next_invoice_date = ? WHERE id = ?",
+            'UPDATE recurring_invoices SET status = ?, next_invoice_date = ? WHERE id = ?',
             [self::STATUS_ACTIVE, $nextDate, $id]
         );
 
@@ -378,7 +376,7 @@ class RecurringInvoiceService
     public function cancel(int $id): bool
     {
         $result = Database::query(
-            "UPDATE recurring_invoices SET status = ? WHERE id = ? AND status IN (?, ?)",
+            'UPDATE recurring_invoices SET status = ? WHERE id = ? AND status IN (?, ?)',
             [self::STATUS_CANCELLED, $id, self::STATUS_ACTIVE, self::STATUS_PAUSED]
         );
 
@@ -391,7 +389,7 @@ class RecurringInvoiceService
     public function getItems(int $recurringId): array
     {
         return Database::fetchAll(
-            "SELECT * FROM recurring_invoice_items WHERE recurring_invoice_id = ? ORDER BY id",
+            'SELECT * FROM recurring_invoice_items WHERE recurring_invoice_id = ? ORDER BY id',
             [$recurringId]
         );
     }
@@ -405,9 +403,9 @@ class RecurringInvoiceService
             $total = (float) $item['quantity'] * (float) $item['unit_price'];
 
             Database::query(
-                "INSERT INTO recurring_invoice_items
+                'INSERT INTO recurring_invoice_items
                     (recurring_invoice_id, description, quantity, unit_price, vat_rate, total)
-                 VALUES (?, ?, ?, ?, ?, ?)",
+                 VALUES (?, ?, ?, ?, ?, ?)',
                 [
                     $recurringId,
                     $item['description'],
@@ -450,10 +448,10 @@ class RecurringInvoiceService
     {
         // Récupérer la facture avec les informations client
         $invoice = Database::fetch(
-            "SELECT i.*, c.email as client_email, c.company_name as client_name
+            'SELECT i.*, c.email as client_email, c.company_name as client_name
              FROM invoices i
              JOIN clients c ON c.id = i.client_id
-             WHERE i.id = ?",
+             WHERE i.id = ?',
             [$invoiceId]
         );
 
@@ -463,7 +461,7 @@ class RecurringInvoiceService
 
         // Récupérer les paramètres utilisateur
         $settings = Database::fetch(
-            "SELECT * FROM settings WHERE user_id = ?",
+            'SELECT * FROM settings WHERE user_id = ?',
             [$invoice['user_id']]
         );
 
@@ -473,7 +471,7 @@ class RecurringInvoiceService
 
         // Récupérer les items de la facture
         $items = Database::fetchAll(
-            "SELECT * FROM invoice_items WHERE invoice_id = ? ORDER BY id",
+            'SELECT * FROM invoice_items WHERE invoice_id = ? ORDER BY id',
             [$invoiceId]
         );
 
@@ -506,6 +504,7 @@ class RecurringInvoiceService
             return $sent;
         } catch (\Exception $e) {
             error_log("RecurringInvoiceService: Failed to send invoice {$invoiceId}: " . $e->getMessage());
+
             return false;
         }
     }

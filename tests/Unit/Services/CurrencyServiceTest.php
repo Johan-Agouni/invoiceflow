@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use Tests\TestCase;
 use App\Services\CurrencyService;
+use Tests\TestCase;
 
 class CurrencyServiceTest extends TestCase
 {

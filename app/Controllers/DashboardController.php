@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Controller;
+use App\Database;
+use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Quote;
-use App\Models\Client;
-use App\Database;
 
 class DashboardController extends Controller
 {
@@ -53,7 +53,7 @@ class DashboardController extends Controller
         }
 
         foreach ($monthlyRevenue as $row) {
-            $index = array_search(date('M Y', strtotime($row['month'] . '-01')), $chartLabels);
+            $index = array_search(date('M Y', strtotime($row['month'] . '-01')), $chartLabels, true);
             if ($index !== false) {
                 $chartData[$index] = (float) $row['revenue'];
             }
@@ -246,6 +246,7 @@ class DashboardController extends Controller
         if ($previous == 0) {
             return $current > 0 ? 100 : 0;
         }
+
         return round((($current - $previous) / $previous) * 100, 1);
     }
 
@@ -255,10 +256,10 @@ class DashboardController extends Controller
     private function getStatusDistribution(int $userId): array
     {
         $distribution = Database::fetchAll(
-            "SELECT status, COUNT(*) as count, COALESCE(SUM(total_amount), 0) as amount
+            'SELECT status, COUNT(*) as count, COALESCE(SUM(total_amount), 0) as amount
              FROM invoices
              WHERE user_id = ?
-             GROUP BY status",
+             GROUP BY status',
             [$userId]
         );
 

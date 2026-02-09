@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Model;
 use App\Database;
+use App\Model;
 
 class QuoteItem extends Model
 {
@@ -14,7 +14,7 @@ class QuoteItem extends Model
     public static function getForQuote(int $quoteId): array
     {
         return Database::fetchAll(
-            "SELECT * FROM quote_items WHERE quote_id = ? ORDER BY id ASC",
+            'SELECT * FROM quote_items WHERE quote_id = ? ORDER BY id ASC',
             [$quoteId]
         );
     }

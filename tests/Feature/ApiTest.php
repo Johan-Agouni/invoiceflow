@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Database;
 use App\Models\User;
+use Tests\TestCase;
 
 /**
  * API Feature Tests
@@ -16,6 +16,7 @@ use App\Models\User;
 class ApiTest extends TestCase
 {
     private array $user;
+
     private string $token;
 
     protected function setUp(): void
@@ -31,7 +32,7 @@ class ApiTest extends TestCase
         // Create API token
         $this->token = bin2hex(random_bytes(32));
         Database::query(
-            "INSERT INTO api_tokens (user_id, name, token, created_at) VALUES (?, ?, ?, NOW())",
+            'INSERT INTO api_tokens (user_id, name, token, created_at) VALUES (?, ?, ?, NOW())',
             [$this->user['id'], 'Test Token', hash('sha256', $this->token)]
         );
     }
@@ -51,7 +52,7 @@ class ApiTest extends TestCase
     public function testApiTokenIsStoredHashed(): void
     {
         $storedToken = Database::fetch(
-            "SELECT token FROM api_tokens WHERE user_id = ?",
+            'SELECT token FROM api_tokens WHERE user_id = ?',
             [$this->user['id']]
         );
 
@@ -63,9 +64,9 @@ class ApiTest extends TestCase
     public function testCanAuthenticateWithValidToken(): void
     {
         $storedToken = Database::fetch(
-            "SELECT u.* FROM users u
+            'SELECT u.* FROM users u
              INNER JOIN api_tokens t ON t.user_id = u.id
-             WHERE t.token = ?",
+             WHERE t.token = ?',
             [hash('sha256', $this->token)]
         );
 
@@ -76,9 +77,9 @@ class ApiTest extends TestCase
     public function testCannotAuthenticateWithInvalidToken(): void
     {
         $storedToken = Database::fetch(
-            "SELECT u.* FROM users u
+            'SELECT u.* FROM users u
              INNER JOIN api_tokens t ON t.user_id = u.id
-             WHERE t.token = ?",
+             WHERE t.token = ?',
             [hash('sha256', 'invalid_token')]
         );
 
@@ -90,16 +91,16 @@ class ApiTest extends TestCase
         // Create expired token
         $expiredToken = bin2hex(random_bytes(32));
         Database::query(
-            "INSERT INTO api_tokens (user_id, name, token, expires_at, created_at)
-             VALUES (?, ?, ?, DATE_SUB(NOW(), INTERVAL 1 DAY), NOW())",
+            'INSERT INTO api_tokens (user_id, name, token, expires_at, created_at)
+             VALUES (?, ?, ?, DATE_SUB(NOW(), INTERVAL 1 DAY), NOW())',
             [$this->user['id'], 'Expired Token', hash('sha256', $expiredToken)]
         );
 
         // Try to authenticate with expired token
         $storedToken = Database::fetch(
-            "SELECT u.* FROM users u
+            'SELECT u.* FROM users u
              INNER JOIN api_tokens t ON t.user_id = u.id
-             WHERE t.token = ? AND (t.expires_at IS NULL OR t.expires_at > NOW())",
+             WHERE t.token = ? AND (t.expires_at IS NULL OR t.expires_at > NOW())',
             [hash('sha256', $expiredToken)]
         );
 
@@ -109,12 +110,12 @@ class ApiTest extends TestCase
     public function testCanRevokeToken(): void
     {
         Database::query(
-            "DELETE FROM api_tokens WHERE token = ?",
+            'DELETE FROM api_tokens WHERE token = ?',
             [hash('sha256', $this->token)]
         );
 
         $storedToken = Database::fetch(
-            "SELECT * FROM api_tokens WHERE token = ?",
+            'SELECT * FROM api_tokens WHERE token = ?',
             [hash('sha256', $this->token)]
         );
 
@@ -127,24 +128,24 @@ class ApiTest extends TestCase
         for ($i = 0; $i < 3; $i++) {
             $token = bin2hex(random_bytes(32));
             Database::query(
-                "INSERT INTO api_tokens (user_id, name, token, created_at) VALUES (?, ?, ?, NOW())",
+                'INSERT INTO api_tokens (user_id, name, token, created_at) VALUES (?, ?, ?, NOW())',
                 [$this->user['id'], "Token {$i}", hash('sha256', $token)]
             );
         }
 
         // Verify we have multiple tokens
         $count = Database::fetch(
-            "SELECT COUNT(*) as count FROM api_tokens WHERE user_id = ?",
+            'SELECT COUNT(*) as count FROM api_tokens WHERE user_id = ?',
             [$this->user['id']]
         );
         $this->assertGreaterThan(1, $count['count']);
 
         // Revoke all
-        Database::query("DELETE FROM api_tokens WHERE user_id = ?", [$this->user['id']]);
+        Database::query('DELETE FROM api_tokens WHERE user_id = ?', [$this->user['id']]);
 
         // Verify all gone
         $count = Database::fetch(
-            "SELECT COUNT(*) as count FROM api_tokens WHERE user_id = ?",
+            'SELECT COUNT(*) as count FROM api_tokens WHERE user_id = ?',
             [$this->user['id']]
         );
         $this->assertEquals(0, $count['count']);
@@ -154,12 +155,12 @@ class ApiTest extends TestCase
     {
         // Simulate token usage
         Database::query(
-            "UPDATE api_tokens SET last_used_at = NOW() WHERE token = ?",
+            'UPDATE api_tokens SET last_used_at = NOW() WHERE token = ?',
             [hash('sha256', $this->token)]
         );
 
         $token = Database::fetch(
-            "SELECT last_used_at FROM api_tokens WHERE token = ?",
+            'SELECT last_used_at FROM api_tokens WHERE token = ?',
             [hash('sha256', $this->token)]
         );
 

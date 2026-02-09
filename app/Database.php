@@ -44,12 +44,14 @@ class Database
     {
         $stmt = self::getInstance()->prepare($sql);
         $stmt->execute($params);
+
         return $stmt;
     }
 
     public static function fetch(string $sql, array $params = []): ?array
     {
         $result = self::query($sql, $params)->fetch();
+
         return $result ?: null;
     }
 
@@ -75,6 +77,7 @@ class Database
         $sql = "UPDATE {$table} SET {$set} WHERE {$where}";
 
         $stmt = self::query($sql, [...array_values($data), ...$whereParams]);
+
         return $stmt->rowCount();
     }
 
@@ -82,6 +85,7 @@ class Database
     {
         $sql = "DELETE FROM {$table} WHERE {$where}";
         $stmt = self::query($sql, $params);
+
         return $stmt->rowCount();
     }
 }

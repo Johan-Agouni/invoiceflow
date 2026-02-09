@@ -13,11 +13,14 @@ namespace App\Services;
 class RateLimiter
 {
     private string $storageDir;
+
     private bool $useRedis = false;
+
     private ?\Redis $redis = null;
 
     // Default limits
     private int $maxRequests = 100;
+
     private int $windowSeconds = 60;
 
     public function __construct()
@@ -26,7 +29,7 @@ class RateLimiter
 
         // Ensure storage directory exists
         if (!is_dir($this->storageDir)) {
-            mkdir($this->storageDir, 0755, true);
+            mkdir($this->storageDir, 0o755, true);
         }
 
         // Try to connect to Redis if available
@@ -63,6 +66,7 @@ class RateLimiter
     {
         $this->maxRequests = $maxRequests;
         $this->windowSeconds = $windowSeconds;
+
         return $this;
     }
 
@@ -70,6 +74,7 @@ class RateLimiter
      * Check if the request should be allowed
      *
      * @param string $key Unique identifier (e.g., API token hash, IP address)
+     *
      * @return array{allowed: bool, remaining: int, reset: int, limit: int}
      */
     public function check(string $key): array
@@ -181,7 +186,7 @@ class RateLimiter
         $timestamps = $this->readTimestamps($file);
 
         // Filter to only include timestamps within the window
-        $timestamps = array_filter($timestamps, fn($ts) => $ts > $windowStart);
+        $timestamps = array_filter($timestamps, fn ($ts) => $ts > $windowStart);
 
         $count = count($timestamps);
         $remaining = max(0, $this->maxRequests - $count);
@@ -206,7 +211,7 @@ class RateLimiter
         $timestamps = $this->readTimestamps($file);
 
         // Remove old timestamps and add new one
-        $timestamps = array_filter($timestamps, fn($ts) => $ts > $windowStart);
+        $timestamps = array_filter($timestamps, fn ($ts) => $ts > $windowStart);
         $timestamps[] = $now;
 
         // Write back

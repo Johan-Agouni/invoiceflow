@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Controller;
 
-use Tests\TestCase;
+use App\Database;
+use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Quote;
-use App\Models\Client;
-use App\Database;
+use Tests\TestCase;
 
 /**
  * Dashboard Controller Feature Tests
@@ -20,6 +20,7 @@ use App\Database;
 class DashboardControllerTest extends TestCase
 {
     private array $user;
+
     private array $client;
 
     protected function setUp(): void
@@ -214,10 +215,10 @@ class DashboardControllerTest extends TestCase
         $this->createInvoice($this->user['id'], $this->client['id'], ['status' => 'paid']);
 
         $distribution = Database::fetchAll(
-            "SELECT status, COUNT(*) as count
+            'SELECT status, COUNT(*) as count
              FROM invoices
              WHERE user_id = ?
-             GROUP BY status",
+             GROUP BY status',
             [$this->user['id']]
         );
 

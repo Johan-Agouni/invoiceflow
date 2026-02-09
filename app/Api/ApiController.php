@@ -28,16 +28,16 @@ abstract class ApiController
         }
 
         $this->user = Database::fetch(
-            "SELECT u.* FROM users u
+            'SELECT u.* FROM users u
              INNER JOIN api_tokens t ON t.user_id = u.id
-             WHERE t.token = ? AND (t.expires_at IS NULL OR t.expires_at > NOW())",
+             WHERE t.token = ? AND (t.expires_at IS NULL OR t.expires_at > NOW())',
             [hash('sha256', $token)]
         );
 
         if ($this->user) {
             // Update last used timestamp
             Database::query(
-                "UPDATE api_tokens SET last_used_at = NOW() WHERE token = ?",
+                'UPDATE api_tokens SET last_used_at = NOW() WHERE token = ?',
                 [hash('sha256', $token)]
             );
         }
@@ -242,7 +242,7 @@ abstract class ApiController
             'min' => strlen((string) $value) < (int) $params[0] ? "The {$label} must be at least {$params[0]} characters" : null,
             'max' => strlen((string) $value) > (int) $params[0] ? "The {$label} must not exceed {$params[0]} characters" : null,
             'date' => $value && !strtotime($value) ? "The {$label} must be a valid date" : null,
-            'in' => $value && !in_array($value, $params) ? "The {$label} must be one of: " . implode(', ', $params) : null,
+            'in' => $value && !in_array($value, $params, true) ? "The {$label} must be one of: " . implode(', ', $params) : null,
             default => null,
         };
     }

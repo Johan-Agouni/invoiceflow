@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Models;
 
-use Tests\TestCase;
 use App\Models\Settings;
+use Tests\TestCase;
 
 /**
  * Settings Model Tests

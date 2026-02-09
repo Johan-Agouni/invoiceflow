@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Model;
 use App\Database;
+use App\Model;
 
 class Settings extends Model
 {
@@ -14,7 +14,7 @@ class Settings extends Model
     public static function getForUser(int $userId): array
     {
         $settings = Database::fetch(
-            "SELECT * FROM settings WHERE user_id = ?",
+            'SELECT * FROM settings WHERE user_id = ?',
             [$userId]
         );
 
@@ -47,7 +47,7 @@ class Settings extends Model
     public static function updateForUser(int $userId, array $data): void
     {
         $existing = Database::fetch(
-            "SELECT id FROM settings WHERE user_id = ?",
+            'SELECT id FROM settings WHERE user_id = ?',
             [$userId]
         );
 
