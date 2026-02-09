@@ -75,8 +75,8 @@ class RateLimitMiddleware
      */
     private function getBearerToken(): ?string
     {
-        $headers = getallheaders();
-        $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? '';
+        $headers = function_exists('getallheaders') ? getallheaders() : [];
+        $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? $_SERVER['HTTP_AUTHORIZATION'] ?? '';
 
         if (preg_match('/Bearer\s+(.+)$/i', $authHeader, $matches)) {
             return $matches[1];

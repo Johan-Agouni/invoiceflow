@@ -319,9 +319,9 @@ class InvoiceControllerTest extends TestCase
 
         $stats = Invoice::getStats($this->user['id']);
 
-        $this->assertArrayHasKey('draft', $stats);
-        $this->assertArrayHasKey('pending', $stats);
-        $this->assertArrayHasKey('paid', $stats);
+        $this->assertArrayHasKey('paid_count', $stats);
+        $this->assertArrayHasKey('pending_count', $stats);
+        $this->assertArrayHasKey('total_paid', $stats);
     }
 
     public function testInvoiceVatCalculationWithMultipleRates(): void
